@@ -1,5 +1,4 @@
 import { keyTextMappingConvert, text2KeyFont } from "../src/index.js";
-import { cw01 } from "../src/config/cw01.js";
 import { cw02 } from "../src/config/cw02.js";
 
 const a = keyTextMappingConvert(cw02);
