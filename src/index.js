@@ -26,3 +26,5 @@ export function text2KeyFont(keyName, text) {
   }
   return text;
 }
+
+export { config } from "./config/index.js";
