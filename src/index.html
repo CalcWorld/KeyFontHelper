@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="UTF-8">
+<title>Key Font Helper</title>
+<label for="text"></label><textarea id="text"></textarea>
+<div id="result"></div>
+<script>
+  text.oninput = function () {
+    result.innerHTML = kfh.text2KeyFont('cw01', text.value);
+  }
+</script>
+</html>
