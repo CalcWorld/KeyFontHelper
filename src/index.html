@@ -17,14 +17,14 @@
   const text = document.getElementById('text');
   const result = document.getElementById('result');
 
-  window.onload = () => {
+  window.addEventListener('load', function () {
     kfh.config.forEach((kf) => {
       const option = document.createElement('option');
       option.value = kf.keyName;
       option.innerText = kf.fontName;
       keyName.appendChild(option);
     })
-  }
+  });
 
   keyName.onchange = text.oninput = function () {
     result.innerHTML = kfh.text2KeyFont(keyName.value, text.value);
