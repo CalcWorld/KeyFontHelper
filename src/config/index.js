@@ -1,6 +1,7 @@
 import { cw01 } from "./cw01.js";
 import { cw02 } from "./cw02.js";
 import { cwex } from "./cwex.js";
+import { es03 } from "./es03.js";
 
 export const config = [
   {
@@ -17,5 +18,10 @@ export const config = [
     keyName: 'cwex',
     fontName: 'CASIO ClassWiz',
     keyMapping: cwex,
+  },
+  {
+    keyName: 'es03',
+    fontName: 'ES03',
+    keyMapping: es03,
   },
 ];
