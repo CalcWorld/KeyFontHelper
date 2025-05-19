@@ -5,6 +5,7 @@ import { es03 } from "./es03.js";
 import { es04 } from "./es04.js";
 import { cwde } from "./cwde.js";
 import { cwce } from "./cwce.js";
+import { cwrs } from "./cwrs.js";
 
 export const series_cw = 'cw';
 export const series_ex = 'ex';
@@ -41,6 +42,12 @@ export const config = [
     keyName: 'cwce',
     fontName: 'CASIO ClassWiz CE',
     keyMapping: cwce,
+    series: series_ex,
+  },
+  {
+    keyName: 'cwrs',
+    fontName: 'CASIO ClassWiz RS',
+    keyMapping: cwrs,
     series: series_ex,
   },
   {

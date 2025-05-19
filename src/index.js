@@ -12,7 +12,7 @@ export function keyTextMappingConvert(keyName, keyMapping) {
       if (!keyTextBased.hasOwnProperty(keyText)) {
         keyTextBased[keyText] = k;
       } else {
-        throw new Error(`Duplicate KeyText: ${keyText} at key ${k}`);
+        throw new Error(`Duplicate KeyText: ${keyText} at key ${k} of ${keyName}`);
       }
     }
   }
