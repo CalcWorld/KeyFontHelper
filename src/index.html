@@ -4,6 +4,15 @@
 <title>Key Font Helper</title>
 <link rel="stylesheet" href="https://cwh.ca510.com/key-font/key_font.css">
 <div>
+    <input id="series-input" type="radio" name="type" value="series" checked>
+    <label for="series-input">Series Based</label>
+    <input id="font-input" type="radio" name="type" value="font">
+    <label for="font-input">Font Based</label>
+</div>
+<div id="series-panel">
+    <label for="series"></label><select id="series"></select>
+</div>
+<div id="font-panel" style="display: none;">
     <label for="keyName"></label><select id="keyName"></select>
 </div>
 <div>
@@ -14,6 +23,7 @@
 </div>
 <script>
   const keyName = document.getElementById('keyName');
+  const series = document.getElementById('series');
   const text = document.getElementById('text');
   const result = document.getElementById('result');
 
@@ -23,11 +33,35 @@
       option.value = kf.keyName;
       option.innerText = kf.fontName;
       keyName.appendChild(option);
+    });
+    kfh.series.forEach((s) => {
+      const option = document.createElement('option');
+      option.value = s;
+      option.innerText = s;
+      series.appendChild(option);
     })
   });
 
-  keyName.onchange = text.oninput = function () {
-    result.innerHTML = kfh.text2KeyFont(keyName.value, text.value);
+  keyName.onchange = series.onchange = text.oninput = function () {
+    const type = document.querySelector('input[name="type"]:checked').value;
+    if (type === 'series') {
+      result.innerHTML = kfh.text2KeyFontBySeries(series.value, text.value);
+    } else if (type === 'font') {
+      result.innerHTML = kfh.text2KeyFont(keyName.value, text.value);
+    }
   }
+
+  document.querySelectorAll('input[name="type"]').forEach(radio => {
+    radio.addEventListener('change', function () {
+      document.querySelectorAll('[id$="-panel"]').forEach(panel => {
+        panel.style.display = 'none';
+      });
+
+      if (this.checked) {
+        document.getElementById(`${this.value}-panel`).style.display = 'block';
+      }
+      text.oninput(null);
+    });
+  });
 </script>
 </html>

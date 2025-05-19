@@ -27,4 +27,22 @@ export function text2KeyFont(keyName, text) {
   return text;
 }
 
-export { config } from "./config/index.js";
+export function text2KeyFontBySeries(series, text) {
+  let found = false;
+  for (const keyConfig of config) {
+    if (keyConfig.series === series) {
+      found = true;
+      const fontName = keyConfig.fontName;
+      const keyTextMapping = keyTextMappingConvert(keyConfig.keyMapping);
+      for (const keyText in keyTextMapping) {
+        text = text.replaceAll(keyText, `<span style="font-family: '${fontName}';">${keyTextMapping[keyText]}</span>`);
+      }
+    }
+  }
+  if (!found) {
+    throw new Error(`Unknown series: ${series}`);
+  }
+  return text;
+}
+
+export { config, series } from "./config/index.js";
