@@ -5,6 +5,20 @@ export function numKey(keyMapping) {
   return keyMapping;
 }
 
+export function copy(keyMapping) {
+  return JSON.parse(JSON.stringify(keyMapping))
+}
+
+export function update(keyMapping, updateObject) {
+  Object.assign(keyMapping, updateObject)
+}
+
+export function del(keyMapping, delKey) {
+  delKey.forEach((e) => {
+    delete keyMapping[e];
+  })
+}
+
 export const k_frac = ['[d/c]', '[■/□]'];
 export const k_eng = ['[ENG]'];
 export const k_eq = ['[=]'];
