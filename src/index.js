@@ -28,7 +28,7 @@ export function text2KeyFont(keyName, text) {
   const fontName = keyConfig.fontName;
   const keyTextMapping = keyTextMappingConvert(keyConfig.keyName, keyConfig.keyMapping);
   for (const keyText in keyTextMapping) {
-    text = text.replaceAll(keyText, `<span style="font-family: '${fontName}';">${keyTextMapping[keyText]}</span>`);
+    text = text.replaceAll(keyText, `<span style="font-family:'${fontName}'">${keyTextMapping[keyText]}</span>`);
   }
   return text;
 }
