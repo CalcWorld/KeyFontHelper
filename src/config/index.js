@@ -3,6 +3,7 @@ import { cw02 } from "./cw02.js";
 import { cwex } from "./cwex.js";
 import { es03 } from "./es03.js";
 import { es04 } from "./es04.js";
+import { cwde } from "./cwde.js";
 
 export const series_cw = 'cw';
 export const series_ex = 'ex';
@@ -27,6 +28,12 @@ export const config = [
     keyName: 'cwex',
     fontName: 'CASIO ClassWiz',
     keyMapping: cwex,
+    series: series_ex,
+  },
+  {
+    keyName: 'cwde',
+    fontName: 'CASIO ClassWiz DE',
+    keyMapping: cwde,
     series: series_ex,
   },
   {
