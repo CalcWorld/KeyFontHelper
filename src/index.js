@@ -1,6 +1,11 @@
 import { config } from "./config/index.js";
 
-export function keyTextMappingConvert(keyMapping) {
+export const keyTextMappingCache = {};
+
+export function keyTextMappingConvert(keyName, keyMapping) {
+  if (keyTextMappingCache[keyName]) {
+    return keyTextMappingCache[keyName];
+  }
   const keyTextBased = {};
   for (let k in keyMapping) {
     for (const keyText of keyMapping[k]) {
@@ -11,6 +16,7 @@ export function keyTextMappingConvert(keyMapping) {
       }
     }
   }
+  keyTextMappingCache[keyName] = keyTextBased;
   return keyTextBased;
 }
 
@@ -20,7 +26,7 @@ export function text2KeyFont(keyName, text) {
     throw new Error(`Unknown keyName: ${keyName}`);
   }
   const fontName = keyConfig.fontName;
-  const keyTextMapping = keyTextMappingConvert(keyConfig.keyMapping);
+  const keyTextMapping = keyTextMappingConvert(keyConfig.keyName, keyConfig.keyMapping);
   for (const keyText in keyTextMapping) {
     text = text.replaceAll(keyText, `<span style="font-family: '${fontName}';">${keyTextMapping[keyText]}</span>`);
   }
@@ -33,7 +39,7 @@ export function text2KeyFontBySeries(series, text) {
     if (keyConfig.series === series) {
       found = true;
       const fontName = keyConfig.fontName;
-      const keyTextMapping = keyTextMappingConvert(keyConfig.keyMapping);
+      const keyTextMapping = keyTextMappingConvert(keyConfig.keyName, keyConfig.keyMapping);
       for (const keyText in keyTextMapping) {
         text = text.replaceAll(keyText, `<span style="font-family:'${fontName}'">${keyTextMapping[keyText]}</span>`);
       }
