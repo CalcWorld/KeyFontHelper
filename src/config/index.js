@@ -2,6 +2,7 @@ import { cw01 } from "./cw01.js";
 import { cw02 } from "./cw02.js";
 import { cwex } from "./cwex.js";
 import { es03 } from "./es03.js";
+import { es04 } from "./es04.js";
 
 export const series_cw = 'cw';
 export const series_ex = 'ex';
@@ -32,6 +33,12 @@ export const config = [
     keyName: 'es03',
     fontName: 'ES03',
     keyMapping: es03,
+    series: series_es,
+  },
+  {
+    keyName: 'es04',
+    fontName: 'ES04',
+    keyMapping: es04,
     series: series_es,
   },
 ];
