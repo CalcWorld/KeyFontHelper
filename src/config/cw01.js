@@ -1,5 +1,6 @@
 import {
   k_ac,
+  k_adc,
   k_ans,
   k_approx,
   k_arg,
@@ -70,7 +71,7 @@ const cw01 = {
   'x': ['(\'\'")', '(DMS)', '(°\'")'],
   'y': ['(Integral)', '(∫)'],
   'z': ['((-))'],
-  'A': ['(a(b/c))', '(a b/c)', '(■(□/□))'],
+  'A': k_adc,
   'B': k_exe,
   'C': k_ac,
   'D': ['(Rec)'],
