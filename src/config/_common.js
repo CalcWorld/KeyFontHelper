@@ -72,4 +72,5 @@ export const k_xf = ['[x!]'];
 export const k_power = ['[^]', '[■^□]', '[x^■]'];
 export const k_simp = ['[Simp]'];
 export const k_product = ['[Π]', '[Product]'];
-export const k_per=['(%)'];
+export const k_per = ['(%)'];
+export const k_per_ = ['[%]'];
