@@ -1,5 +1,5 @@
 import { cw01 } from "./cw01.js";
-import { copy, del, update } from "./_common.js";
+import { copy, del, k_tg, k_tg1, update } from "./_common.js";
 
 const cw02 = copy(cw01);
 update(cw02, {
@@ -13,8 +13,8 @@ update(cw02, {
   'S': ['(|-)', '(├)'],
   'Z': ['(Arctg)'],
   '*': ['[7-]'],
-  ']': ['(tg⁻¹)', '(tg^-1)'],
-  ':': ['[tg]'],
+  ']': k_tg1,
+  ':': k_tg,
   ';': ['[sen]'],
 });
 

@@ -93,3 +93,5 @@ export const k_simp = ['[Simp]'];
 export const k_product = ['[Π]', '[Product]'];
 export const k_per = ['(%)'];
 export const k_per_ = ['[%]'];
+export const k_tg = ['[tg]'];
+export const k_tg1 = ['(tg⁻¹)', '(tg^-1)'];
