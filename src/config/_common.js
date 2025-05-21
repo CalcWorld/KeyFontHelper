@@ -13,10 +13,12 @@ export function update(keyMapping, updateObject) {
   Object.assign(keyMapping, updateObject)
 }
 
+/**
+ * @param {*} keyMapping
+ * @param {string[]} delKey
+ */
 export function del(keyMapping, delKey) {
-  delKey.forEach((e) => {
-    delete keyMapping[e];
-  })
+  delKey.forEach(e => delete keyMapping[e]);
 }
 
 export const k_frac = ['[d/c]', '[■/□]'];
@@ -95,3 +97,14 @@ export const k_per = ['(%)'];
 export const k_per_ = ['[%]'];
 export const k_tg = ['[tg]'];
 export const k_tg1 = ['(tg⁻¹)', '(tg^-1)'];
+export const k_7_ = ['[7-]'];
+export const k_suppr = ['[SUPPR]'];
+export const k_seconde = ['[SECONDE]'];
+export const k_a10x = ['(a*10^x)', '(a×10^x)'];
+export const k_rep = ['[Rép]', '[Rep]'];
+export const k_fr_divisionr = ['[|-]', '[├]'];
+export const k_arcsin = ['(Arcsin)'];
+export const k_arccos = ['(Arccos)'];
+export const k_arctan = ['(Arctan)'];
+export const k_arctg = ['(Arctg)'];
+export const k_sen = ['[sen]'];
