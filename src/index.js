@@ -1,4 +1,4 @@
-import { config } from "./config/index.js";
+import { config, series } from "./config/index.js";
 
 export const keyTextMappingCache = {};
 
@@ -9,11 +9,10 @@ export function keyTextMappingConvert(keyName, keyMapping) {
   const keyTextBased = {};
   for (let k in keyMapping) {
     for (const keyText of keyMapping[k]) {
-      if (!keyTextBased.hasOwnProperty(keyText)) {
-        keyTextBased[keyText] = k;
-      } else {
+      if (keyTextBased.hasOwnProperty(keyText)) {
         throw new Error(`Duplicate KeyText: ${keyText} at key ${k} of ${keyName}`);
       }
+      keyTextBased[keyText] = k;
     }
   }
   keyTextMappingCache[keyName] = keyTextBased;
@@ -33,20 +32,19 @@ export function text2KeyFont(keyName, text) {
   return text;
 }
 
-export function text2KeyFontBySeries(series, text) {
-  let found = false;
-  for (const keyConfig of config) {
-    if (keyConfig.series === series) {
-      found = true;
-      const fontName = keyConfig.fontName;
-      const keyTextMapping = keyTextMappingConvert(keyConfig.keyName, keyConfig.keyMapping);
-      for (const keyText in keyTextMapping) {
-        text = text.replaceAll(keyText, `<span style="font-family:'${fontName}'">${keyTextMapping[keyText]}</span>`);
-      }
-    }
+export function text2KeyFontBySeries(seriesKey, text) {
+  if (!series.includes(seriesKey)) {
+    throw new Error(`Unknown series: ${seriesKey}`);
   }
-  if (!found) {
-    throw new Error(`Unknown series: ${series}`);
+
+  for (const keyConfig of config) {
+    if (keyConfig.series !== seriesKey) continue;
+
+    const fontName = keyConfig.fontName;
+    const keyTextMapping = keyTextMappingConvert(keyConfig.keyName, keyConfig.keyMapping);
+    for (const keyText in keyTextMapping) {
+      text = text.replaceAll(keyText, `<span style="font-family:'${fontName}'">${keyTextMapping[keyText]}</span>`);
+    }
   }
   return text;
 }
