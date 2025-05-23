@@ -9,6 +9,8 @@ update(cw02, {
   't': k_arccos,
   'y': k_arctan,
   'D': ['(|__)', '(∟)', '(⌙)'],
+  'G': ['(Rép)', '(Rep)'],
+  'H': ['[e^x]', '[e^■]'],
   'N': k_arcsin,
   'S': ['(|-)', '(├)'],
   'Z': k_arctg,
@@ -18,6 +20,6 @@ update(cw02, {
   ';': k_sen,
 });
 
-del(cw02, ['G', 'H', 'J', 'Y']);
+del(cw02, ['J', 'Y']);
 
 export { cw02 };

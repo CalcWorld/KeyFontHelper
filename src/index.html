@@ -3,6 +3,7 @@
 <meta charset="UTF-8">
 <title>Key Font Helper</title>
 <link rel="stylesheet" href="https://cwh.ca510.com/key-font/key_font.css">
+<link rel="stylesheet" href="https://cwh.ca510.com/1-level-font/table.css">
 <div>
     <input id="series-input" type="radio" name="type" value="series" checked>
     <label for="series-input">Series Based</label>
@@ -21,11 +22,17 @@
 <div>
     <div id="result"></div>
 </div>
+<div>
+    <div id="mapping"></div>
+</div>
 <script>
   const keyName = document.getElementById('keyName');
   const series = document.getElementById('series');
   const text = document.getElementById('text');
   const result = document.getElementById('result');
+  const mapping = document.getElementById('mapping');
+
+  const ascii = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "!", "$", "\"", "'", "%", "&", "(", ")", "*", "+", ".", ",", "-", "/", "=", "^", "~", "#", "{", "<", ">", "?", "@", "[", "}", "]", ":", ";", "_", "`", "|", "\\"];
 
   window.addEventListener('load', function () {
     kfh.config.forEach((kf) => {
@@ -34,6 +41,15 @@
       option.innerText = kf.fontName;
       keyName.appendChild(option);
     });
+    mapping.innerHTML = `<div class="table-container"><table class="table-view"><thead>
+<tr>
+<th>ASCII</th>
+${kfh.config.map(v => `<th colspan="2">${v.fontName.replace('CASIO ', '')}</th>`).join('')}
+</tr></thead>
+<tbody>
+${ascii.map(a => `<tr><td>${a}</td>${kfh.config.map(v => `<td class="${v.keyName}">${a}</td><td>${v.keyMapping[a]?.join('<br>') ?? ''}</td>`).join('')}</tr>`).join('')}
+</tbody>
+</div>`;
     kfh.series.forEach((s) => {
       const option = document.createElement('option');
       option.value = s;
