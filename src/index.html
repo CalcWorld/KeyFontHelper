@@ -36,6 +36,7 @@
         box-sizing: border-box;
         padding: 5px;
         margin: 8px 2px;
+        word-break: break-all;
     }
 
     #text[contenteditable]:empty::before {
@@ -134,9 +135,9 @@
       result.style.pointerEvents = 'none';
       result.style.userSelect = 'none';
     } else {
-      result.style.color = 'inherit';
-      result.style.pointerEvents = 'auto';
-      result.style.userSelect = 'inherit';
+      result.style.color = '';
+      result.style.pointerEvents = '';
+      result.style.userSelect = '';
     }
   };
 
