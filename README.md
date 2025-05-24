@@ -8,7 +8,7 @@ GitHub: [CalcWorld/KeyFontHelper](https://github.com/CalcWorld/KeyFontHelper)
 
 ## What it does
 
-Calculator Key Font Helper transforms calculator notation like `[sin]30` into properly styled text ![Image](https://github.com/user-attachments/assets/8339dbb6-950a-4d49-b834-0ba08045c7fc) that matches the appearance of actual calculator keys.
+Calculator Key Font Helper transforms calculator notation like `[sin]30` into properly styled text (<img src="https://github.com/user-attachments/assets/8339dbb6-950a-4d49-b834-0ba08045c7fc" style="height: 1rem">) that matches the appearance of actual calculator keys.
 
 ## Supported Fonts
 
