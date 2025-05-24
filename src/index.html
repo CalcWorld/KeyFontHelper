@@ -152,6 +152,16 @@ ${ascii.map(a => `<tr><td>${a}</td>${config.map(v => `<td style="font-family:'${
 </div>`;
   };
 
+  // preload fonts
+  const fontsPreload = () => kfh.config.map(f => {
+    const el = document.createElement('span');
+    el.style.fontFamily = f.fontName;
+    el.innerHTML = '0';
+    document.body.appendChild(el);
+    window.getComputedStyle(el).getPropertyValue('font-family');
+    el.remove();
+  });
+
   window.addEventListener('load', function () {
     kfh.config.forEach((kf) => {
       const option = document.createElement('option');
@@ -168,6 +178,7 @@ ${ascii.map(a => `<tr><td>${a}</td>${config.map(v => `<td style="font-family:'${
     renderResult();
     loadMapping();
     text.focus();
+    fontsPreload();
   });
 </script>
 </html>
