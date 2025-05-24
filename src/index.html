@@ -1,28 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<meta name="color-scheme" content="light dark">
 <title>Key Font Helper</title>
 <link rel="stylesheet" href="https://cwh.ca510.com/key-font/key_font.css">
 <link rel="stylesheet" href="https://cwh.ca510.com/1-level-font/table.css">
-<div>
-    <input id="series-input" type="radio" name="type" value="series" checked>
-    <label for="series-input">Series Based</label>
-    <input id="font-input" type="radio" name="type" value="font">
-    <label for="font-input">Font Based</label>
-</div>
-<div id="series-panel">
-    <label for="series"></label><select id="series"></select>
-</div>
-<div id="font-panel" style="display: none;">
-    <label for="keyName"></label><select id="keyName"></select>
-</div>
-<div>
-    <label for="text"></label><textarea id="text"></textarea>
-</div>
-<div>
-    <div id="result"></div>
-</div>
-<div>
+<style>
+    html, body {
+        height: 100%;
+        padding: 0;
+        margin: 0;
+    }
+
+    #app {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        padding: 0 10px;
+    }
+
+    #panel > div {
+        margin: 0 20px;
+    }
+
+    select {
+        min-width: 6rem;
+    }
+
+    #text, #result {
+        min-height: 4rem;
+        border: 1px solid gray;
+        border-radius: .25rem;
+        width: 100%;
+        padding: 5px;
+        margin: 8px 2px;
+    }
+
+    #preview {
+        display: flex;
+    }
+
+    #mapping {
+        flex: 1;
+        display: flex;
+        height: 0;
+    }
+</style>
+<h1><span>Key Font Helper</span><span>按键字体助手</span></h1>
+<div id="app">
+    <div class="panel">
+        <div class="form-group">
+            <input id="series-input" type="radio" name="type" value="series" checked>
+            <label for="series-input">Series Based</label>
+        </div>
+        <div class="form-group">
+            <input id="font-input" type="radio" name="type" value="font">
+            <label for="font-input">Font Based</label>
+        </div>
+        <div id="series-panel">
+            <label for="series"></label><select id="series"></select>
+        </div>
+        <div id="font-panel" style="display: none;">
+            <label for="keyName"></label><select id="keyName"></select>
+        </div>
+    </div>
+    <div id="preview">
+        <div id="text" contenteditable="plaintext-only"></div>
+        <div id="result"></div>
+    </div>
     <div id="mapping"></div>
 </div>
 <script>
@@ -43,7 +89,7 @@
     });
     mapping.innerHTML = `<div class="table-container"><table class="table-view"><thead>
 <tr>
-<th>ASCII</th>
+<th></th>
 ${kfh.config.map(v => `<th colspan="2">${v.fontName.replace('CASIO ', '')}</th>`).join('')}
 </tr></thead>
 <tbody>
@@ -61,9 +107,9 @@ ${ascii.map(a => `<tr><td>${a}</td>${kfh.config.map(v => `<td class="${v.keyName
   keyName.onchange = series.onchange = text.oninput = function () {
     const type = document.querySelector('input[name="type"]:checked').value;
     if (type === 'series') {
-      result.innerHTML = kfh.text2KeyFontBySeries(series.value, text.value);
+      result.innerHTML = kfh.text2KeyFontBySeries(series.value, text.innerText);
     } else if (type === 'font') {
-      result.innerHTML = kfh.text2KeyFont(keyName.value, text.value);
+      result.innerHTML = kfh.text2KeyFont(keyName.value, text.innerText);
     }
   }
 
