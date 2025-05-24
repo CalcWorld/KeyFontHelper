@@ -33,12 +33,26 @@
         border: 1px solid gray;
         border-radius: .25rem;
         width: 100%;
+        box-sizing: border-box;
         padding: 5px;
         margin: 8px 2px;
     }
 
+    #text[contenteditable]:empty::before {
+        content: attr(data-placeholder);
+        color: #999;
+        position: absolute;
+        pointer-events: none;
+    }
+
     #preview {
         display: flex;
+    }
+
+    @media (max-width: 600px) {
+        #preview {
+            flex-direction: column;
+        }
     }
 
     #mapping {
@@ -66,7 +80,7 @@
         </div>
     </div>
     <div id="preview">
-        <div id="text" contenteditable="plaintext-only"></div>
+        <div id="text" contenteditable="plaintext-only" data-placeholder="1[+]1"></div>
         <div id="result"></div>
     </div>
     <div id="mapping"></div>
@@ -80,36 +94,21 @@
 
   const ascii = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "!", "$", "\"", "'", "%", "&", "(", ")", "*", "+", ".", ",", "-", "/", "=", "^", "~", "#", "{", "<", ">", "?", "@", "[", "}", "]", ":", ";", "_", "`", "|", "\\"];
 
-  window.addEventListener('load', function () {
-    kfh.config.forEach((kf) => {
-      const option = document.createElement('option');
-      option.value = kf.keyName;
-      option.innerText = kf.fontName;
-      keyName.appendChild(option);
-    });
-    mapping.innerHTML = `<div class="table-container"><table class="table-view"><thead>
-<tr>
-<th></th>
-${kfh.config.map(v => `<th colspan="2">${v.fontName.replace('CASIO ', '')}</th>`).join('')}
-</tr></thead>
-<tbody>
-${ascii.map(a => `<tr><td>${a}</td>${kfh.config.map(v => `<td class="${v.keyName}">${a}</td><td>${v.keyMapping[a]?.join('<br>') ?? ''}</td>`).join('')}</tr>`).join('')}
-</tbody>
-</div>`;
-    kfh.series.forEach((s) => {
-      const option = document.createElement('option');
-      option.value = s;
-      option.innerText = s;
-      series.appendChild(option);
-    })
-  });
-
   keyName.onchange = series.onchange = text.oninput = function () {
     const type = document.querySelector('input[name="type"]:checked').value;
     if (type === 'series') {
-      result.innerHTML = kfh.text2KeyFontBySeries(series.value, text.innerText);
+      result.innerHTML = kfh.text2KeyFontBySeries(series.value, text.innerText || text.dataset.placeholder);
     } else if (type === 'font') {
-      result.innerHTML = kfh.text2KeyFont(keyName.value, text.innerText);
+      result.innerHTML = kfh.text2KeyFont(keyName.value, text.innerText || text.dataset.placeholder);
+    }
+    if (!text.innerText) {
+      result.style.color = '#999';
+      result.style.pointerEvents = 'none';
+      result.style.userSelect = 'none';
+    } else {
+      result.style.color = 'inherit';
+      result.style.pointerEvents = 'auto';
+      result.style.userSelect = 'inherit';
     }
   }
 
@@ -124,6 +123,31 @@ ${ascii.map(a => `<tr><td>${a}</td>${kfh.config.map(v => `<td class="${v.keyName
       }
       text.oninput(null);
     });
+  });
+
+  window.addEventListener('load', function () {
+    kfh.config.forEach((kf) => {
+      const option = document.createElement('option');
+      option.value = kf.keyName;
+      option.innerText = kf.fontName;
+      keyName.appendChild(option);
+    });
+    mapping.innerHTML = `<div class="table-container"><table class="table-view"><thead>
+<tr>
+<th></th>
+${kfh.config.map(v => `<th colspan="2">${v.fontName.replace('CASIO ', '')}</th>`).join('')}
+</tr></thead>
+<tbody>
+${ascii.map(a => `<tr><td>${a}</td>${kfh.config.map(v => `<td style="font-family:'${v.fontName}'">${a}</td><td>${v.keyMapping[a]?.join('<br>') ?? ''}</td>`).join('')}</tr>`).join('')}
+</tbody>
+</div>`;
+    kfh.series.forEach((s) => {
+      const option = document.createElement('option');
+      option.value = s;
+      option.innerText = s;
+      series.appendChild(option);
+    });
+    text.oninput(null);
   });
 </script>
 </html>
