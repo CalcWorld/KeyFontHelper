@@ -125,9 +125,9 @@
   const renderResult = () => {
     const type = document.querySelector('input[name="type"]:checked').value;
     if (type === 'series') {
-      result.innerHTML = kfh.text2KeyFontBySeries(series.value, text.innerText || text.dataset.placeholder);
+      result.innerHTML = kfh.text2KeyFontBySeries(series.value, text.innerText.replace(/\n/g, '<br>') || text.dataset.placeholder);
     } else if (type === 'font') {
-      result.innerHTML = kfh.text2KeyFont(keyName.value, text.innerText || text.dataset.placeholder);
+      result.innerHTML = kfh.text2KeyFont(keyName.value, text.innerText.replace(/\n/g, '<br>') || text.dataset.placeholder);
     }
     if (!text.innerText) {
       result.style.color = '#999';
