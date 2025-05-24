@@ -8,7 +8,9 @@ GitHub: [CalcWorld/KeyFontHelper](https://github.com/CalcWorld/KeyFontHelper)
 
 ## What it does
 
-Calculator Key Font Helper transforms calculator notation like `[sin]30` into properly styled text (<img src="https://github.com/user-attachments/assets/8339dbb6-950a-4d49-b834-0ba08045c7fc" style="height: 1rem">) that matches the appearance of actual calculator keys.
+Calculator Key Font Helper transforms calculator notation like `[sin]30` into properly styled
+text (<img src="https://github.com/user-attachments/assets/8339dbb6-950a-4d49-b834-0ba08045c7fc" style="height: 1rem">)
+that matches the appearance of actual calculator keys.
 
 ## Supported Fonts
 
@@ -21,9 +23,11 @@ Calculator Key Font Helper transforms calculator notation like `[sin]30` into pr
 ```javascript
 // Convert text for a specific calculator font
 const result1 = text2KeyFont('cw01', '[sin]30[)][+][cos]60');
+// <span style="font-family:'CASIO ClassWiz CW01'">j</span>30<span style="font-family:'CASIO ClassWiz CW01'">)</span><span style="font-family:'CASIO ClassWiz CW01'">+</span><span style="font-family:'CASIO ClassWiz CW01'">k</span>60
 
 // Convert text for all models in a series
-const result2 = text2KeyFontBySeries('cw', '[sin]30[)][+][cos]60');
+const result2 = text2KeyFontBySeries('cw', '[tg]30[)][+][cos]60');
+// <span style="font-family:'CASIO ClassWiz CW02'">:</span>30<span style="font-family:'CASIO ClassWiz CW01'">)</span><span style="font-family:'CASIO ClassWiz CW01'">+</span><span style="font-family:'CASIO ClassWiz CW01'">k</span>60
 ```
 
 ## Installation

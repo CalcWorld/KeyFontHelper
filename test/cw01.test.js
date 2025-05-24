@@ -1,11 +1,11 @@
-import { keyTextMappingConvert, text2KeyFont } from "../src/index.js";
+import { keyTextMappingConvert, text2KeyFont, text2KeyFontBySeries } from "../src/index.js";
 import { cw01 } from "../src/config/cw01.js";
 
-const a = keyTextMappingConvert(cw01);
+const a = keyTextMappingConvert('cw01', cw01);
 console.log(a);
 
-console.log(text2KeyFont('cw01', '1[+]1'))
-console.log(text2KeyFont('cw01', '1[+][+]1'))
+console.log(text2KeyFont('cw01', '[sin]30[)][+][cos]60'))
+console.log(text2KeyFontBySeries('cw', '[tg]30[)][+][cos]60'))
 console.log(text2KeyFont('cw01', '1[+]1[=]2'))
 console.log(text2KeyFont('cw01', '1[+]1[=]2[tan]'))
 console.log(text2KeyFont('cw01', '[开机][主屏幕][↑]'))
