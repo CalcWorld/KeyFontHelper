@@ -28,15 +28,15 @@ const config = {
   plugins: [
     new HtmlWebpackPlugin({
       template: './src/index.html',
-      // favicon: "./src/favicon.ico",
+      favicon: "./src/favicon.ico",
       minify,
     }),
-    /*new HtmlWebpackPlugin({
+    new HtmlWebpackPlugin({
       template: './src/404.html',
       filename: '404.html',
       inject: false,
       minify,
-    }),*/
+    }),
   ],
   optimization: {
     // concatenateModules: false, // 临时禁用模块拼接
