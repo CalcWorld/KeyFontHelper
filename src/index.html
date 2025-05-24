@@ -59,6 +59,12 @@
         flex: 1;
         display: flex;
         height: 85vh;
+        justify-content: center;
+    }
+
+    .table-container, .table-view {
+        min-width: unset;
+        width: fit-content;
     }
 </style>
 <h1><span>Key Font Helper</span><span>按键字体助手</span></h1>
@@ -94,7 +100,7 @@
 
   const ascii = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "!", "$", "\"", "'", "%", "&", "(", ")", "*", "+", ".", ",", "-", "/", "=", "^", "~", "#", "{", "<", ">", "?", "@", "[", "}", "]", ":", ";", "_", "`", "|", "\\"];
 
-  keyName.onchange = series.onchange = text.oninput = function () {
+  const renderResult = () => {
     const type = document.querySelector('input[name="type"]:checked').value;
     if (type === 'series') {
       result.innerHTML = kfh.text2KeyFontBySeries(series.value, text.innerText || text.dataset.placeholder);
@@ -110,20 +116,41 @@
       result.style.pointerEvents = 'auto';
       result.style.userSelect = 'inherit';
     }
-  }
+  };
+
+  text.oninput = renderResult;
+
+  keyName.onchange = series.onchange = () => {
+    renderResult();
+    loadMapping();
+  };
 
   document.querySelectorAll('input[name="type"]').forEach(radio => {
-    radio.addEventListener('change', function () {
-      document.querySelectorAll('[id$="-panel"]').forEach(panel => {
-        panel.style.display = 'none';
-      });
+    radio.addEventListener('change', () => {
+      document.querySelectorAll('[id$="-panel"]').forEach(panel => panel.style.display = 'none');
 
-      if (this.checked) {
-        document.getElementById(`${this.value}-panel`).style.display = 'block';
+      if (radio.checked) {
+        document.getElementById(`${radio.value}-panel`).style.display = '';
       }
-      text.oninput(null);
+      renderResult();
+      loadMapping();
     });
   });
+
+  const loadMapping = () => {
+    const type = document.querySelector('input[name="type"]:checked').value;
+    const config = kfh.config.filter(v => type === 'series' ? v.series === series.value : v.keyName === keyName.value);
+
+    mapping.innerHTML = `<div class="table-container"><table class="table-view"><thead>
+<tr>
+<th></th>
+${config.map(v => `<th colspan="2">${v.fontName.replace('CASIO ', '')}</th>`).join('')}
+</tr></thead>
+<tbody>
+${ascii.map(a => `<tr><td>${a}</td>${config.map(v => `<td style="font-family:'${v.fontName}'">${a}</td><td>${v.keyMapping[a]?.join('<br>') ?? ''}</td>`).join('')}</tr>`).join('')}
+</tbody>
+</div>`;
+  };
 
   window.addEventListener('load', function () {
     kfh.config.forEach((kf) => {
@@ -132,22 +159,14 @@
       option.innerText = kf.fontName;
       keyName.appendChild(option);
     });
-    mapping.innerHTML = `<div class="table-container"><table class="table-view"><thead>
-<tr>
-<th></th>
-${kfh.config.map(v => `<th colspan="2">${v.fontName.replace('CASIO ', '')}</th>`).join('')}
-</tr></thead>
-<tbody>
-${ascii.map(a => `<tr><td>${a}</td>${kfh.config.map(v => `<td style="font-family:'${v.fontName}'">${a}</td><td>${v.keyMapping[a]?.join('<br>') ?? ''}</td>`).join('')}</tr>`).join('')}
-</tbody>
-</div>`;
     kfh.series.forEach((s) => {
       const option = document.createElement('option');
       option.value = s;
       option.innerText = s;
       series.appendChild(option);
     });
-    text.oninput(null);
+    renderResult();
+    loadMapping();
     text.focus();
   });
 </script>
