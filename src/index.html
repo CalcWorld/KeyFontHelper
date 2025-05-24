@@ -58,7 +58,7 @@
     #mapping {
         flex: 1;
         display: flex;
-        height: 0;
+        height: 85vh;
     }
 </style>
 <h1><span>Key Font Helper</span><span>按键字体助手</span></h1>
@@ -148,6 +148,7 @@ ${ascii.map(a => `<tr><td>${a}</td>${kfh.config.map(v => `<td style="font-family
       series.appendChild(option);
     });
     text.oninput(null);
+    text.focus();
   });
 </script>
 </html>
