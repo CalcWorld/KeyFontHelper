@@ -20,10 +20,10 @@ Calculator Key Font Helper transforms calculator notation like `[sin]30` into pr
 
 ```javascript
 // Convert text for a specific calculator font
-const result1 = text2KeyFont('cw01', '[sin]30[+][cos]60');
+const result1 = text2KeyFont('cw01', '[sin]30[)][+][cos]60');
 
 // Convert text for all models in a series
-const result2 = text2KeyFontBySeries('cw', '[sin]30[+][cos]60');
+const result2 = text2KeyFontBySeries('cw', '[sin]30[)][+][cos]60');
 ```
 
 ## Installation
