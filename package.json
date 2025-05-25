@@ -7,7 +7,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --mode=production --node-env=production",
-    "serve": "webpack serve"
+    "serve": "webpack serve",
+    "dev": "wrangler dev --ip=0.0.0.0 --port=8791"
   },
   "keywords": [],
   "author": "CalcWorld",
@@ -20,6 +21,7 @@
     "html-webpack-plugin": "^5.5.0",
     "webpack": "^5.97.1",
     "webpack-cli": "^5.1.4",
-    "webpack-dev-server": "^5.2.0"
+    "webpack-dev-server": "^5.2.0",
+    "wrangler": "^4.16.1"
   }
 }
