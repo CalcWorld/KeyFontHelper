@@ -1,11 +1,14 @@
 name = "kfh"
+main = "./src/api/index.js"
 compatibility_date = "2025-05-25"
 workers_dev = false
 preview_urls = false
 
 [assets]
 directory = "./dist/"
-not_found_handling = "404-page"
+binding = "ASSETS"
+#not_found_handling = "404-page"
+#run_worker_first = true
 
 [build]
 command = "npm run build"
