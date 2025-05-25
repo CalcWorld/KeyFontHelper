@@ -7,6 +7,7 @@ import { cwde } from "./cwde.js";
 import { cwce } from "./cwce.js";
 import { cwrs } from "./cwrs.js";
 import { cwfr } from "./cwfr.js";
+import { keyTextMappingConvert } from "./_common.js";
 
 export const series_cw = 'cw';
 export const series_ex = 'ex';
@@ -14,7 +15,7 @@ export const series_es = 'es';
 
 export const series = [series_cw, series_ex, series_es];
 
-export const config = [
+const config = [
   {
     font: 'cw01',
     family: 'CASIO ClassWiz CW01',
@@ -69,4 +70,9 @@ export const config = [
     mapping: es04,
     series: series_es,
   },
-];
+].map(i => ({
+  ...i,
+  reverseMapping: keyTextMappingConvert(i.font, i.mapping),
+}));
+
+export { config };

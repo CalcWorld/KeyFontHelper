@@ -21,6 +21,19 @@ export function del(mapping, delKey) {
   delKey.forEach(e => delete mapping[e]);
 }
 
+export function keyTextMappingConvert(font, mapping) {
+  const keyTextBased = {};
+  for (let k in mapping) {
+    for (const keyText of mapping[k]) {
+      if (keyTextBased.hasOwnProperty(keyText)) {
+        throw new Error(`Duplicate KeyText: ${keyText} at key ${k} of ${font}`);
+      }
+      keyTextBased[keyText] = k;
+    }
+  }
+  return keyTextBased;
+}
+
 export const k_frac = ['[d/c]', '[■/□]'];
 export const k_eng = ['[ENG]'];
 export const k_eq = ['[=]'];
