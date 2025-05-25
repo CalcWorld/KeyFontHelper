@@ -25,7 +25,7 @@ that matches the appearance of actual calculator keys.
 const result1 = text2KeyFont('cw01', '[sin]30[)][+][cos]60');
 // <span style="font-family:'CASIO ClassWiz CW01'">j</span>30<span style="font-family:'CASIO ClassWiz CW01'">)</span><span style="font-family:'CASIO ClassWiz CW01'">+</span><span style="font-family:'CASIO ClassWiz CW01'">k</span>60
 
-// Convert text for all models in a series
+// Convert text for all fonts in a series
 const result2 = text2KeyFontBySeries('cw', '[tg]30[)][+][cos]60');
 // <span style="font-family:'CASIO ClassWiz CW02'">:</span>30<span style="font-family:'CASIO ClassWiz CW01'">)</span><span style="font-family:'CASIO ClassWiz CW01'">+</span><span style="font-family:'CASIO ClassWiz CW01'">k</span>60
 ```
@@ -38,6 +38,37 @@ npm run build
 ```
 
 The built library will be available in the `dist/` directory as `kfh.js`.
+
+## API Call
+
+### Get Key Config
+All key font config
+```
+GET /api/config
+```
+
+Specific font config
+```
+GET /api/config?type=font&font=cw01
+```
+
+Specific series key font config
+```
+GET /api/config?type=series&series=cw
+```
+
+### Convert Key Text
+Convert text for a specific calculator font
+```
+GET /api/html?type=font&font=cw01&text=[sin]30[)][%2B][cos]60
+```
+
+Convert text for all fonts in a series
+```
+GET /api/html?type=series&series=cw&text=[tg]30[)][%2B][cos]60
+```
+
+**Note:** Replace the `font` and `series` parameters above according to your actual needs.
 
 ## Development
 
