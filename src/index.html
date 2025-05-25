@@ -68,6 +68,10 @@
         width: fit-content;
     }
 
+    #api {
+        word-break: break-all;
+    }
+
     .footer {
         text-align: center;
         padding: 15px;
@@ -109,6 +113,10 @@
         <div id="result"></div>
     </div>
     <div id="mapping"></div>
+    <div id="api">
+        <div>Mapping Config API: <a id="configApi" target="_blank"></a></div>
+        <div>Convert Key Text API: <a id="htmlApi" target="_blank"></a></div>
+    </div>
     <footer class="footer">
         <span><svg viewBox="0 0 16 16" width="12" height="12"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg></span>
         <span><a href="https://github.com/CalcWorld/KeyFontHelper" target="_blank">KeyFontHelper</a></span>
@@ -120,24 +128,32 @@
   const text = document.getElementById('text');
   const result = document.getElementById('result');
   const mapping = document.getElementById('mapping');
+  const configApi = document.getElementById('configApi');
+  const htmlApi = document.getElementById('htmlApi');
 
   const ascii = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "!", "$", "\"", "'", "%", "&", "(", ")", "*", "+", ".", ",", "-", "/", "=", "^", "~", "#", "{", "<", ">", "?", "@", "[", "}", "]", ":", ";", "_", "`", "|", "\\"];
 
   const renderResult = () => {
     const type = document.querySelector('input[name="type"]:checked').value;
+    let typeParam = '';
     if (type === 'series') {
       result.innerHTML = kfh.text2KeyFontBySeries(series.value, text.innerText.replace(/\n/g, '<br>') || text.dataset.placeholder);
+      typeParam = `&series=${series.value}`
     } else if (type === 'font') {
       result.innerHTML = kfh.text2KeyFont(font.value, text.innerText.replace(/\n/g, '<br>') || text.dataset.placeholder);
+      typeParam = `&font=${font.value}`
     }
     if (!text.innerText) {
       result.style.color = '#999';
       result.style.pointerEvents = 'none';
       result.style.userSelect = 'none';
+      htmlApi.innerText = '';
     } else {
       result.style.color = '';
       result.style.pointerEvents = '';
       result.style.userSelect = '';
+      htmlApi.href = `/api/html?type=${type}${typeParam}&text=${encodeURIComponent(text.innerText)}`;
+      htmlApi.innerText = htmlApi.href.length > 100 ? `${htmlApi.href.substring(0, 100)}[...]` : htmlApi.href;
     }
   };
 
@@ -173,6 +189,9 @@ ${config.map(v => `<th colspan="2">${v.family.replace('CASIO ', '')}</th>`).join
 ${ascii.map(a => `<tr><td>${a}</td>${config.map(v => `<td style="font-family:'${v.family}'">${a}</td><td>${v.mapping[a]?.join('<br>') ?? ''}</td>`).join('')}</tr>`).join('')}
 </tbody>
 </div>`;
+
+    configApi.href = `/api/config?type=${type}${type === 'series' ? `&series=${series.value}` : `&font=${font.value}`}`;
+    configApi.innerText = configApi.href;
   };
 
   // preload fonts
