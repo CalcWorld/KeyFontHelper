@@ -136,14 +136,17 @@
   const renderResult = () => {
     const type = document.querySelector('input[name="type"]:checked').value;
     let typeParam = '';
+    const escape = document.createElement('div');
+    escape.textContent = text.innerText;
+    const content = escape.innerHTML;
     if (type === 'series') {
-      result.innerHTML = kfh.text2KeyFontBySeries(series.value, text.innerText.replace(/\n/g, '<br>') || text.dataset.placeholder);
+      result.innerHTML = kfh.text2KeyFontBySeries(series.value, content.replace(/\n/g, '<br>') || text.dataset.placeholder);
       typeParam = `&series=${series.value}`
     } else if (type === 'font') {
-      result.innerHTML = kfh.text2KeyFont(font.value, text.innerText.replace(/\n/g, '<br>') || text.dataset.placeholder);
+      result.innerHTML = kfh.text2KeyFont(font.value, content.replace(/\n/g, '<br>') || text.dataset.placeholder);
       typeParam = `&font=${font.value}`
     }
-    if (!text.innerText) {
+    if (!content) {
       result.style.color = '#999';
       result.style.pointerEvents = 'none';
       result.style.userSelect = 'none';
@@ -152,7 +155,7 @@
       result.style.color = '';
       result.style.pointerEvents = '';
       result.style.userSelect = '';
-      htmlApi.href = `/api/html?type=${type}${typeParam}&text=${encodeURIComponent(text.innerText)}`;
+      htmlApi.href = `/api/html?type=${type}${typeParam}&text=${encodeURIComponent(content)}`;
       htmlApi.innerText = htmlApi.href.length > 100 ? `${htmlApi.href.substring(0, 100)}[...]` : htmlApi.href;
     }
   };
