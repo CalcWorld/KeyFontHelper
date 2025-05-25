@@ -37,7 +37,7 @@ export default {
       } else if (type === 'font') {
         const font = url.searchParams.get('font');
         return Response_.jsonSuccess({
-          config: config.filter(i => i.keyName === font)
+          config: config.filter(i => i.font === font)
         });
       }
       return Response_.jsonSuccess({ config });

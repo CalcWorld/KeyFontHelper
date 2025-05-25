@@ -1,24 +1,24 @@
-export function numKey(keyMapping) {
+export function numKey(mapping) {
   for (let i = 0; i < 10; i++) {
-    keyMapping[`${i}`] = [`[${i}]`];
+    mapping[`${i}`] = [`[${i}]`];
   }
-  return keyMapping;
+  return mapping;
 }
 
-export function copy(keyMapping) {
-  return JSON.parse(JSON.stringify(keyMapping))
+export function copy(mapping) {
+  return JSON.parse(JSON.stringify(mapping))
 }
 
-export function update(keyMapping, updateObject) {
-  Object.assign(keyMapping, updateObject)
+export function update(mapping, updateObject) {
+  Object.assign(mapping, updateObject)
 }
 
 /**
- * @param {*} keyMapping
+ * @param {*} mapping
  * @param {string[]} delKey
  */
-export function del(keyMapping, delKey) {
-  delKey.forEach(e => delete keyMapping[e]);
+export function del(mapping, delKey) {
+  delKey.forEach(e => delete mapping[e]);
 }
 
 export const k_frac = ['[d/c]', '[■/□]'];

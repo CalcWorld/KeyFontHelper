@@ -2,32 +2,32 @@ import { config, series } from "./config/index.js";
 
 export const keyTextMappingCache = {};
 
-export function keyTextMappingConvert(keyName, keyMapping) {
-  if (keyTextMappingCache[keyName]) {
-    return keyTextMappingCache[keyName];
+export function keyTextMappingConvert(font, mapping) {
+  if (keyTextMappingCache[font]) {
+    return keyTextMappingCache[font];
   }
   const keyTextBased = {};
-  for (let k in keyMapping) {
-    for (const keyText of keyMapping[k]) {
+  for (let k in mapping) {
+    for (const keyText of mapping[k]) {
       if (keyTextBased.hasOwnProperty(keyText)) {
-        throw new Error(`Duplicate KeyText: ${keyText} at key ${k} of ${keyName}`);
+        throw new Error(`Duplicate KeyText: ${keyText} at key ${k} of ${font}`);
       }
       keyTextBased[keyText] = k;
     }
   }
-  keyTextMappingCache[keyName] = keyTextBased;
+  keyTextMappingCache[font] = keyTextBased;
   return keyTextBased;
 }
 
-export function text2KeyFont(keyName, text) {
-  const keyConfig = config.find(i => i.keyName === keyName);
+export function text2KeyFont(font, text) {
+  const keyConfig = config.find(i => i.font === font);
   if (!keyConfig) {
-    throw new Error(`Unknown keyName: ${keyName}`);
+    throw new Error(`Unknown font: ${font}`);
   }
-  const fontName = keyConfig.fontName;
-  const keyTextMapping = keyTextMappingConvert(keyConfig.keyName, keyConfig.keyMapping);
+  const family = keyConfig.family;
+  const keyTextMapping = keyTextMappingConvert(keyConfig.font, keyConfig.mapping);
   for (const keyText in keyTextMapping) {
-    text = text.replaceAll(keyText, `<span style="font-family:'${fontName}'">${keyTextMapping[keyText]}</span>`);
+    text = text.replaceAll(keyText, `<span style="font-family:'${family}'">${keyTextMapping[keyText]}</span>`);
   }
   return text;
 }
@@ -40,10 +40,10 @@ export function text2KeyFontBySeries(seriesKey, text) {
   for (const keyConfig of config) {
     if (keyConfig.series !== seriesKey) continue;
 
-    const fontName = keyConfig.fontName;
-    const keyTextMapping = keyTextMappingConvert(keyConfig.keyName, keyConfig.keyMapping);
+    const family = keyConfig.family;
+    const keyTextMapping = keyTextMappingConvert(keyConfig.font, keyConfig.mapping);
     for (const keyText in keyTextMapping) {
-      text = text.replaceAll(keyText, `<span style="font-family:'${fontName}'">${keyTextMapping[keyText]}</span>`);
+      text = text.replaceAll(keyText, `<span style="font-family:'${family}'">${keyTextMapping[keyText]}</span>`);
     }
   }
   return text;
