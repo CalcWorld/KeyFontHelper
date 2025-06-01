@@ -8,16 +8,19 @@ export default {
     if (url.pathname === "/api/html") {
       const type = url.searchParams.get('type');
       const text = url.searchParams.get('text');
+      const title = url.searchParams.get('title') === '1';
+      const ariaLabel = url.searchParams.get('ariaLabel') === '1';
+      const option = { title, ariaLabel };
       try {
         if (type === 'series') {
           const series = url.searchParams.get('series');
           return Response_.jsonSuccess({
-            html: text2KeyFontBySeries(series, text),
+            html: text2KeyFontBySeries(series, text, option),
           });
         } else if (type === 'font') {
           const font = url.searchParams.get('font');
           return Response_.jsonSuccess({
-            html: text2KeyFont(font, text),
+            html: text2KeyFont(font, text, option),
           });
         } else {
           throw new Error(`Unknown type: ${type}`);
