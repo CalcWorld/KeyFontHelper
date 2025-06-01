@@ -139,11 +139,15 @@
     const escape = document.createElement('div');
     escape.textContent = text.innerText;
     const content = escape.innerHTML;
+    const option = {
+      ariaLabel: true,
+      title: true,
+    }
     if (type === 'series') {
-      result.innerHTML = kfh.text2KeyFontBySeries(series.value, content.replace(/\n/g, '<br>') || text.dataset.placeholder);
+      result.innerHTML = kfh.text2KeyFontBySeries(series.value, content.replace(/\n/g, '<br>') || text.dataset.placeholder, option);
       typeParam = `&series=${series.value}`
     } else if (type === 'font') {
-      result.innerHTML = kfh.text2KeyFont(font.value, content.replace(/\n/g, '<br>') || text.dataset.placeholder);
+      result.innerHTML = kfh.text2KeyFont(font.value, content.replace(/\n/g, '<br>') || text.dataset.placeholder, option);
       typeParam = `&font=${font.value}`
     }
     if (!content) {
