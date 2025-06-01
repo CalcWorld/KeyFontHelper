@@ -1,6 +1,6 @@
 # Calculator Key Font Helper
 
-A JavaScript library that converts calculator key notation into specific calculator font display.
+A JavaScript library for converting calculator key notation into styled calculator font display, with accessibility support.
 
 Demo: [kfh.pages.dev](https://kfh.pages.dev)
 
@@ -28,6 +28,10 @@ const result1 = text2KeyFont('cw01', '[sin]30[)][+][cos]60');
 // Convert text for all fonts in a series
 const result2 = text2KeyFontBySeries('cw', '[tg]30[)][+][cos]60');
 // <span style="font-family:'CASIO ClassWiz CW02'">:</span>30<span style="font-family:'CASIO ClassWiz CW01'">)</span><span style="font-family:'CASIO ClassWiz CW01'">+</span><span style="font-family:'CASIO ClassWiz CW01'">k</span>60
+
+// [Option] Enable title and aria-label attribute
+const result2 = text2KeyFontBySeries('cw', '5[d/c]6', { title: true, ariaLabel: true });
+// 5<span style="font-family:'CASIO ClassWiz CW01'" title="&#x005B;&#x0064;&#x002F;&#x0063;&#x005D;" aria-label="&#x005B;&#x0064;&#x002F;&#x0063;&#x005D;">a</span>6
 ```
 
 ## Installation
@@ -68,7 +72,9 @@ Convert text for all fonts in a series
 GET /api/html?type=series&series=cw&text=[tg]30[)][%2B][cos]60
 ```
 
-**Note:** Replace the `font` and `series` parameters above according to your actual needs.
+**Note:** 
+- Replace the `font` and `series` parameters above according to your actual needs.
+- To include optional accessibility attributes, add `&title=1`, `&ariaLabel=1`, or both to the API URL.
 
 ## Development
 
