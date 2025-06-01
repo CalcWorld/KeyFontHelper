@@ -79,7 +79,8 @@ GET /api/html?type=series&series=cw&text=[tg]30[)][%2B][cos]60
 ## Development
 
 ```bash
-npm run serve  # Start development server on localhost:8091
+npm run serve  # Start development server without API on localhost:8091
+npm run dev  # Start development server with API on localhost:8791
 npm run build  # Build for production
 ```
 
@@ -90,3 +91,6 @@ The library maps characters to calculator key representations using font-specifi
 ## Notes
 
 The library includes automated CI/CD through GitHub Actions that builds and publishes to the `dist` branch on every push to master. A demo interface is included in `src/index.html` for testing the conversion functionality and displaying the mapping.
+
+## LICENSE
+[GPL-3.0-or-later](LICENSE)
