@@ -74,7 +74,7 @@ GET /api/html?type=series&series=cw&text=[tg]30[)][%2B][cos]60
 
 **Note:** 
 - Replace the `font` and `series` parameters above according to your actual needs.
-- To include optional accessibility attributes, add `&title=1`, `&ariaLabel=1`, or both to the API URL.
+- To include optional accessibility attributes, add `&title=1`, `&ariaLabel=1`, or both to the Convert Key Text API URL.
 
 ## Development
 
