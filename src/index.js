@@ -1,4 +1,4 @@
-import { config, series } from "./config/index.js";
+import { config, series } from './config/index.js';
 
 /**
  * 将字符串中的正则特殊字符进行转义，使其可安全用于 RegExp 构造中。
@@ -37,12 +37,13 @@ function toHtmlUnicodeEntities(str) {
  */
 function renderKeySpan(family, content, keyText, options = {}) {
   const attrs = [`style="font-family:'${family}'"`];
+  const keyTextEncode = toHtmlUnicodeEntities(keyText);
 
   if (options.title) {
-    attrs.push(`title="${toHtmlUnicodeEntities(keyText)}"`);
+    attrs.push(`title="${keyTextEncode}"`);
   }
   if (options.ariaLabel) {
-    attrs.push(`aria-label="${toHtmlUnicodeEntities(keyText)}"`);
+    attrs.push(`aria-label="${keyTextEncode}"`);
   }
 
   return `<span ${attrs.join(' ')}>${content}</span>`;
@@ -105,4 +106,4 @@ export function text2KeyFontBySeries(seriesKey, text, options = {}) {
   return text;
 }
 
-export { config, series } from "./config/index.js";
+export { config, series } from './config/index.js';
