@@ -1,4 +1,4 @@
-import { cw01 } from "./cw01.js";
+import { cw01 } from './cw01.js';
 import {
   copy,
   del,
@@ -11,8 +11,8 @@ import {
   k_sen,
   k_tg,
   k_tg1,
-  update
-} from "./_common.js";
+  update,
+} from './_common.js';
 
 const cw02 = copy(cw01);
 update(cw02, {

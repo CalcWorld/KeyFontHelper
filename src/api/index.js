@@ -1,11 +1,11 @@
-import { Response_ } from "./_Response.js";
-import { config, text2KeyFont, text2KeyFontBySeries } from "../index.js";
+import { Response_ } from './_Response.js';
+import { config, text2KeyFont, text2KeyFontBySeries } from '../index.js';
 
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
-    if (url.pathname === "/api/html") {
+    if (url.pathname === '/api/html') {
       const type = url.searchParams.get('type');
       const text = url.searchParams.get('text');
       const title = url.searchParams.get('title') === '1';
@@ -40,7 +40,7 @@ export default {
       } else if (type === 'font') {
         const font = url.searchParams.get('font');
         return Response_.jsonSuccess({
-          config: config.filter(i => i.font === font)
+          config: config.filter(i => i.font === font),
         });
       }
       return Response_.jsonSuccess({ config });

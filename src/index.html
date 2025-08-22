@@ -139,7 +139,7 @@
   const titleCheckbox = document.getElementById('title');
   const ariaLabelCheckbox = document.getElementById('aria-label');
 
-  const ascii = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "!", "$", "\"", "'", "%", "&", "(", ")", "*", "+", ".", ",", "-", "/", "=", "^", "~", "#", "{", "<", ">", "?", "@", "[", "}", "]", ":", ";", "_", "`", "|", "\\"];
+  const ascii = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '!', '$', '"', '\'', '%', '&', '(', ')', '*', '+', '.', ',', '-', '/', '=', '^', '~', '#', '{', '<', '>', '?', '@', '[', '}', ']', ':', ';', '_', '`', '|', '\\'];
 
   const renderResult = () => {
     const type = document.querySelector('input[name="type"]:checked').value;
@@ -150,13 +150,13 @@
     const option = {
       ariaLabel: ariaLabelCheckbox.checked,
       title: titleCheckbox.checked,
-    }
+    };
     if (type === 'series') {
       result.innerHTML = kfh.text2KeyFontBySeries(series.value, content || text.dataset.placeholder, option);
-      typeParam = `&series=${series.value}`
+      typeParam = `&series=${series.value}`;
     } else if (type === 'font') {
       result.innerHTML = kfh.text2KeyFont(font.value, content || text.dataset.placeholder, option);
-      typeParam = `&font=${font.value}`
+      typeParam = `&font=${font.value}`;
     }
     if (!content) {
       result.style.color = '#999';

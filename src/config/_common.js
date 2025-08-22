@@ -6,11 +6,11 @@ export function numKey(mapping) {
 }
 
 export function copy(mapping) {
-  return JSON.parse(JSON.stringify(mapping))
+  return JSON.parse(JSON.stringify(mapping));
 }
 
 export function update(mapping, updateObject) {
-  Object.assign(mapping, updateObject)
+  Object.assign(mapping, updateObject);
 }
 
 /**

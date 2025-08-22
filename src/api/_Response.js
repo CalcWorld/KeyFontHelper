@@ -21,14 +21,14 @@ export class Response_ {
   static jsonSuccess(data) {
     return this.json({
       code: 'success',
-      ...data
+      ...data,
     });
   }
 
   static jsonError(data) {
     return this.json({
       code: 'error',
-      ...data
+      ...data,
     });
   }
 }

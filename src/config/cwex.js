@@ -69,8 +69,8 @@ import {
   k_tan1,
   k_up,
   k_xf,
-  numKey
-} from "./_common.js";
+  numKey,
+} from './_common.js';
 
 const cwex = {
   'a': k_frac,

@@ -72,8 +72,8 @@ import {
   k_tan1,
   k_up,
   k_xf,
-  numKey
-} from "./_common.js";
+  numKey,
+} from './_common.js';
 
 const es03 = {
   'a': k_frac,
@@ -162,6 +162,6 @@ const es03 = {
   // '\\': [''],
 };
 
-numKey(es03)
+numKey(es03);
 
 export { es03 };

@@ -1,5 +1,5 @@
-import { copy, del, k_abc2dc_, k_adc_, k_pi_, k_sd, update } from "./_common.js";
-import { es03 } from "./es03.js";
+import { copy, del, k_abc2dc_, k_adc_, k_pi_, k_sd, update } from './_common.js';
+import { es03 } from './es03.js';
 
 const es04 = copy(es03);
 

@@ -10,9 +10,9 @@ import {
   k_rep,
   k_seconde,
   k_suppr,
-  update
-} from "./_common.js";
-import { cwex } from "./cwex.js";
+  update,
+} from './_common.js';
+import { cwex } from './cwex.js';
 
 const cwfr = copy(cwex);
 
