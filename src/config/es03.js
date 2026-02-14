@@ -153,7 +153,7 @@ const es03 = {
   '@': ['[Y]'],
   '[': ['[X]'],
   '}': k_product,
-  ']': ['(Conv)', '(▶Conv)'],
+  ']': ['(▶Conv)', '(Conv)'],
   ':': k_rep,
   ';': k_suppr,
   '_': k_comma_,

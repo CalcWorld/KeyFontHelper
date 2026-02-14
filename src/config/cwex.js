@@ -128,7 +128,7 @@ const cwex = {
   '!': k_left,
   '$': k_right,
   '"': k_approx,
-  '\'': ['(x^3)', '(x³)'],
+  '\'': ['(x³)', '(x^3)'],
   '%': k_xf,
   '&': k_per,
   '(': k_open,

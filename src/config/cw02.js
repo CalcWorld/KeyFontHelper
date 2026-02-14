@@ -34,6 +34,6 @@ update(cw02, {
   ';': k_sen,
 });
 
-del(cw02, ['J', 'Y']);
+del(cw02, ['J', 'Y', '_']);
 
 export { cw02 };
