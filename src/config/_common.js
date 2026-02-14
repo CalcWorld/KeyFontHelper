@@ -87,7 +87,7 @@ export const k_shift = ['[SHIFT]'];
 export const k_calc = ['[CALC]'];
 export const k_dms = ['[\'\'"]', '[DMS]', '[°\'"]'];
 export const k_integral = ['[Integral]', '[∫]'];
-export const _adc = ['ad/c', 'a d/c', '■(□/□)'];
+const _adc = ['ad/c', 'a d/c', '■(□/□)'];
 export const k_adc = _adc.map(i => `(${i})`);
 export const k_adc_ = _adc.map(i => `[${i}]`);
 export const k_cube = ['[x^3]', '[x³]'];
