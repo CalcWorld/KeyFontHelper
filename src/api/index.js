@@ -1,5 +1,5 @@
 import { Response_ } from './_Response.js';
-import { config, text2KeyFont, text2KeyFontBySeries } from '../index.js';
+import { config, series, text2KeyFont, text2KeyFontBySeries } from '../index.js';
 
 export default {
   async fetch(request, env) {
@@ -44,6 +44,8 @@ export default {
         });
       }
       return Response_.jsonSuccess({ config });
+    } else if (url.pathname === '/api/series') {
+      return Response_.jsonSuccess({ series });
     }
 
     return env.ASSETS.fetch(request);
