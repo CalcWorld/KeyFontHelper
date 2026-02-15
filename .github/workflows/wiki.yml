@@ -25,7 +25,8 @@ jobs:
         run: node src/wiki.js
         env:
           MW_API: ${{ secrets.MW_API }}
+          MW_CI_TOKEN: ${{ secrets.MW_CI_TOKEN }}
           MW_USERNAME: ${{ secrets.MW_USERNAME }}
           MW_PASSWORD: ${{ secrets.MW_PASSWORD }}
-          PAGE_SERIES: ${{ secrets.PAGE_SERIES }}
-          PAGE_CONFIG: ${{ secrets.PAGE_CONFIG }}
+          MW_PAGE_SERIES: ${{ secrets.MW_PAGE_SERIES }}
+          MW_PAGE_CONFIG: ${{ secrets.MW_PAGE_CONFIG }}

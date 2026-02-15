@@ -5,15 +5,22 @@ const {
   MW_API,
   MW_USERNAME,
   MW_PASSWORD,
-  PAGE_SERIES,
-  PAGE_CONFIG,
+  MW_PAGE_SERIES,
+  MW_PAGE_CONFIG,
 } = process.env;
 
-if (!MW_API || !MW_USERNAME || !MW_PASSWORD || !PAGE_SERIES || !PAGE_CONFIG) {
+if (!MW_API || !MW_USERNAME || !MW_PASSWORD || !MW_PAGE_SERIES || !MW_PAGE_CONFIG) {
   throw new Error('Missing required environment variables.');
 }
 
-const bot = new MWBot({ apiUrl: MW_API });
+const bot = new MWBot({
+  apiUrl: MW_API,
+  requestOptions: {
+    headers: {
+      'X-CI-Token': process.env.MW_CI_TOKEN,
+    },
+  },
+});
 
 async function main() {
 
@@ -23,14 +30,14 @@ async function main() {
   });
 
   const res1 = await bot.edit(
-    PAGE_SERIES,
+    MW_PAGE_SERIES,
     JSON.stringify(series, null, 2),
     'Auto update series.json',
   );
   console.log('SERIES RESULT:', res1?.['edit']?.['result']);
 
   const res2 = await bot.edit(
-    PAGE_CONFIG,
+    MW_PAGE_CONFIG,
     JSON.stringify(config, null, 2),
     'Auto update config.json',
   );
