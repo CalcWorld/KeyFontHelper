@@ -15,11 +15,6 @@ if (!MW_API || !MW_USERNAME || !MW_PASSWORD || !MW_PAGE_SERIES || !MW_PAGE_CONFI
 
 const bot = new MWBot({
   apiUrl: MW_API,
-  requestOptions: {
-    headers: {
-      'X-CI-Token': process.env.MW_CI_TOKEN,
-    },
-  },
 });
 
 async function main() {
