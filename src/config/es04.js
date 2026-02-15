@@ -5,7 +5,7 @@ const es04 = copy(es03);
 
 update(es04, {
   'f': k_abc2dc,
-  't': ['[10^x]', '[10^■]'],
+  't': ['[10^■]', '[10^x]'],
   'I': ['[Rnd]'],
   'T': ['[SETUP]'],
   'U': k_sd.map(i => i.replace('S', 'F')),
