@@ -1,19 +1,19 @@
-import { copy, del, k_abc2dc_, k_adc_, k_pi_, k_sd, update } from './_common.js';
+import { copy, del, k_abc2dc, k_adc, k_pi, k_sd, update } from './_common.js';
 import { es03 } from './es03.js';
 
 const es04 = copy(es03);
 
 update(es04, {
-  'f': k_abc2dc_,
+  'f': k_abc2dc,
   't': ['[10^x]', '[10^■]'],
   'I': ['[Rnd]'],
   'T': ['[SETUP]'],
   'U': k_sd.map(i => i.replace('S', 'F')),
   'V': ['[M-]'],
-  'Y': k_pi_,
+  'Y': k_pi,
   '"': ['[MODO]'],
   '&': ['[ENC]'],
-  '*': k_adc_,
+  '*': k_adc,
   '#': ['[CLR]'],
   '{': ['(▶%)'],
   ':': ['[RCL M]'],

@@ -1,12 +1,12 @@
-import { copy, k_arccos, k_arcsin, k_arctg, update } from './_common.js';
+import { b_arccos, b_arcsin, b_arctg, copy, update } from './_common.js';
 import { cwce } from './cwce.js';
 
 const cwrs = copy(cwce);
 
 update(cwrs, {
-  '<': k_arcsin,
-  '>': k_arccos,
-  '?': k_arctg,
+  '<': b_arcsin,
+  '>': b_arccos,
+  '?': b_arctg,
 });
 
 // del(cwrs, []);
