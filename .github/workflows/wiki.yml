@@ -1,0 +1,31 @@
+name: Sync to MediaWiki
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  update-wiki:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 23
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run sync script
+        run: node src/wiki.js
+        env:
+          MW_API: ${{ secrets.MW_API }}
+          MW_USERNAME: ${{ secrets.MW_USERNAME }}
+          MW_PASSWORD: ${{ secrets.MW_PASSWORD }}
+          PAGE_SERIES: ${{ secrets.PAGE_SERIES }}
+          PAGE_CONFIG: ${{ secrets.PAGE_CONFIG }}

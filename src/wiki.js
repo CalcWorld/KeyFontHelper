@@ -1,0 +1,42 @@
+import MWBot from 'mwbot';
+import { config, series } from './index.js';
+
+const {
+  MW_API,
+  MW_USERNAME,
+  MW_PASSWORD,
+  PAGE_SERIES,
+  PAGE_CONFIG,
+} = process.env;
+
+if (!MW_API || !MW_USERNAME || !MW_PASSWORD || !PAGE_SERIES || !PAGE_CONFIG) {
+  throw new Error('Missing required environment variables.');
+}
+
+const bot = new MWBot({ apiUrl: MW_API });
+
+async function main() {
+
+  await bot.loginGetEditToken({
+    username: MW_USERNAME,
+    password: MW_PASSWORD,
+  });
+
+  const res1 = await bot.edit(
+    PAGE_SERIES,
+    JSON.stringify(series, null, 2),
+    'Auto update series.json',
+  );
+  console.log('SERIES RESULT:', res1?.['edit']?.['result']);
+
+  const res2 = await bot.edit(
+    PAGE_CONFIG,
+    JSON.stringify(config, null, 2),
+    'Auto update config.json',
+  );
+  console.log('CONFIG RESULT:', res2?.['edit']?.['result']);
+
+  console.log('Update complete');
+}
+
+main().catch(console.error);
