@@ -11,7 +11,7 @@ import {
   k_seconde,
   k_suppr,
   update,
-} from './_common.js';
+} from '../_common.js';
 import { cwex } from './cwex.js';
 
 const cwfr = copy(cwex);

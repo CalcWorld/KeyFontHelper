@@ -73,7 +73,7 @@ import {
   k_up,
   k_xf,
   numKey,
-} from './_common.js';
+} from '../_common.js';
 
 const es03 = {
   'a': k_frac,

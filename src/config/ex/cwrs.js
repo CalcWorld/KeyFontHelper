@@ -1,4 +1,4 @@
-import { b_arccos, b_arcsin, b_arctg, copy, update } from './_common.js';
+import { b_arccos, b_arcsin, b_arctg, copy, update } from '../_common.js';
 import { cwce } from './cwce.js';
 
 const cwrs = copy(cwce);

@@ -1,4 +1,4 @@
-import { copy, del, k_pi, update } from './_common.js';
+import { copy, del, k_pi, update } from '../_common.js';
 import { cwex } from './cwex.js';
 
 const cwde = copy(cwex);

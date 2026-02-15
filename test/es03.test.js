@@ -1,5 +1,5 @@
 import { keyTextMappingConvert, text2KeyFont } from "../src/index.js";
-import { es03 } from "../src/config/es03.js";
+import { es03 } from "../src/config/es/es03.js";
 
 const a = keyTextMappingConvert('es03', es03);
 console.log(a);

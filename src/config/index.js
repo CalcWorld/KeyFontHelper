@@ -1,12 +1,12 @@
-import { cw01 } from './cw01.js';
-import { cw02 } from './cw02.js';
-import { cwex } from './cwex.js';
-import { es03 } from './es03.js';
-import { es04 } from './es04.js';
-import { cwde } from './cwde.js';
-import { cwce } from './cwce.js';
-import { cwrs } from './cwrs.js';
-import { cwfr } from './cwfr.js';
+import { cw01 } from './cw/cw01.js';
+import { cw02 } from './cw/cw02.js';
+import { cwex } from './ex/cwex.js';
+import { es03 } from './es/es03.js';
+import { es04 } from './es/es04.js';
+import { cwde } from './ex/cwde.js';
+import { cwce } from './ex/cwce.js';
+import { cwrs } from './ex/cwrs.js';
+import { cwfr } from './ex/cwfr.js';
 import { keyTextMappingConvert } from './_common.js';
 
 export const series_cw = 'cw';

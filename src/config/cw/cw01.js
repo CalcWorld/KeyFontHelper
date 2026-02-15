@@ -43,7 +43,7 @@ import {
   k_tan,
   k_up,
   numKey,
-} from './_common.js';
+} from '../_common.js';
 
 const cw01 = {
   'a': k_frac,

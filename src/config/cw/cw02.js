@@ -12,7 +12,7 @@ import {
   k_sen,
   k_tg,
   update,
-} from './_common.js';
+} from '../_common.js';
 
 const cw02 = copy(cw01);
 update(cw02, {

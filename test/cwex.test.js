@@ -1,5 +1,5 @@
 import { keyTextMappingConvert, text2KeyFont } from "../src/index.js";
-import { cwex } from "../src/config/cwex.js";
+import { cwex } from "../src/config/ex/cwex.js";
 
 const a = keyTextMappingConvert('cwex', cwex);
 console.log(a);
