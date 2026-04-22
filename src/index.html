@@ -107,11 +107,16 @@
         <div id="font-panel" style="display: none;">
             <label for="font"></label><select id="font"></select>
         </div>
+        <div id="escape-setting" class="form-group">
+            <input type="checkbox" id="escape" checked><label for="escape">Escape HTML</label>
+        </div>
         <div id="title-setting" class="form-group">
-            <input type="checkbox" id="title" checked><label for="title">title attribute</label>
+            <input type="checkbox" id="title" checked>
+            <label for="title">Enable <code>title</code> attribute</label>
         </div>
         <div id="aria-label-setting" class="form-group">
-            <input type="checkbox" id="aria-label" checked><label for="aria-label">aria-label attribute</label>
+            <input type="checkbox" id="aria-label" checked>
+            <label for="aria-label">Enable <code>aria-label</code> attribute</label>
         </div>
     </div>
     <div id="preview">
@@ -136,6 +141,7 @@
   const mapping = document.getElementById('mapping');
   const configApi = document.getElementById('configApi');
   const htmlApi = document.getElementById('htmlApi');
+  const escapeCheckbox = document.getElementById('escape');
   const titleCheckbox = document.getElementById('title');
   const ariaLabelCheckbox = document.getElementById('aria-label');
 
@@ -144,20 +150,23 @@
   const renderResult = () => {
     const type = document.querySelector('input[name="type"]:checked').value;
     let typeParam = '';
-    const escape = document.createElement('div');
-    escape.textContent = text.innerText;
-    const content = escape.innerHTML.replace(/\n/g, '<br>');
+    const content = escapeCheckbox.checked ? text.innerHTML : text.innerText;
     const option = {
       ariaLabel: ariaLabelCheckbox.checked,
       title: titleCheckbox.checked,
     };
+    let parseResult;
     if (type === 'series') {
-      result.innerHTML = kfh.text2KeyFontBySeries(series.value, content || text.dataset.placeholder, option);
+      parseResult = kfh.text2KeyFontBySeries(series.value, content || text.dataset.placeholder, option);
       typeParam = `&series=${series.value}`;
     } else if (type === 'font') {
-      result.innerHTML = kfh.text2KeyFont(font.value, content || text.dataset.placeholder, option);
+      parseResult = kfh.text2KeyFont(font.value, content || text.dataset.placeholder, option);
       typeParam = `&font=${font.value}`;
     }
+    // const escape = document.createElement('div');
+    // escape.innerText = parseResult;
+    // parseResult = escape.innerHTML;
+    result.innerHTML = parseResult;
     if (!content) {
       result.style.color = '#999';
       result.style.pointerEvents = 'none';
@@ -173,6 +182,7 @@
   };
 
   text.oninput = renderResult;
+  escapeCheckbox.onchange = renderResult;
   titleCheckbox.onchange = renderResult;
   ariaLabelCheckbox.onchange = renderResult;
 
