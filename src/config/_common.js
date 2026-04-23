@@ -29,9 +29,9 @@ export function keyTextMappingConvert(font, mapping) {
         throw new Error(`Duplicate KeyText: ${keyText} at key ${k} of ${font}`);
       }
       keyTextBased[keyText] = k;
-      if (/[<>]/.test(keyText)) {
-        keyTextBased[keyText.replace(/[<>]/g, match => match === '<' ? '&lt;' : '&gt;')] = k;
-      }
+      // if (/[<>]/.test(keyText)) {
+      //   keyTextBased[keyText.replace(/[<>]/g, match => match === '<' ? '&lt;' : '&gt;')] = k;
+      // }
     }
   }
   return keyTextBased;
