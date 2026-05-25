@@ -8,12 +8,14 @@ import { cwce } from './ex/cwce.js';
 import { cwrs } from './ex/cwrs.js';
 import { cwfr } from './ex/cwfr.js';
 import { keyTextMappingConvert } from './_common.js';
+import { ms01 } from './ms/ms01.js';
 
 export const series_cw = 'cw';
 export const series_ex = 'ex';
 export const series_es = 'es';
+export const series_ms = 'ms';
 
-export const series = [series_cw, series_ex, series_es];
+export const series = [series_cw, series_ex, series_es, series_ms];
 
 const config = [
   {
@@ -69,6 +71,12 @@ const config = [
     family: 'ES04',
     mapping: es04,
     series: series_es,
+  },
+  {
+    font: 'ms01',
+    family: 'CASIO MS01',
+    mapping: ms01,
+    series: series_ms,
   },
 ].map(i => ({
   ...i,

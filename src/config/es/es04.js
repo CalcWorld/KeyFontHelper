@@ -1,4 +1,4 @@
-import { copy, del, k_abc2dc, k_adc, k_pi, k_sd, update } from '../_common.js';
+import { copy, del, k_abc2dc, k_adc, k_fd, k_mminus, k_pi, update } from '../_common.js';
 import { es03 } from './es03.js';
 
 const es04 = copy(es03);
@@ -8,8 +8,8 @@ update(es04, {
   't': ['[10^■]', '[10^x]'],
   'I': ['[Rnd]'],
   'T': ['[SETUP]'],
-  'U': k_sd.map(i => i.replace('S', 'F')),
-  'V': ['[M-]'],
+  'U': k_fd,
+  'V': k_mminus,
   'Y': k_pi,
   '"': ['[MODO]'],
   '&': ['[ENC]'],
