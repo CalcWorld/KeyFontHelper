@@ -107,7 +107,7 @@ const _abc2dc = ['a(b/c)⇔d/c', 'a b/c⇔d/c', 'a(b/c)<=>d/c', 'a b/c<=>d/c', '
 export const b_abc2dc = _abc2dc.map(i => `(${i})`);
 export const k_abc2dc = _abc2dc.map(i => `[${i}]`);
 export const k_alpha = ['[ALPHA]'];
-export const b_3sqrt = ['(³√(■))', '(3rd Root)', '(3 sqrt a)'];
+export const b_3sqrt = ['(³√(■))', '(³√)', '(3rd Root)', '(3 sqrt a)'];
 export const k_on = ['[ON]'];
 export const b_left = ['(←)', '(Left)'];
 export const k_xf = ['[x!]'];
