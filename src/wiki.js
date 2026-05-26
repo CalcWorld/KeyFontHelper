@@ -34,7 +34,7 @@ async function main() {
 
   let configEdit;
   if (MW_KEEP_MAPPING === 'off') {
-    configEdit = JSON.parse(JSON.stringify(config, null, 2));
+    configEdit = JSON.parse(JSON.stringify(config));
     for (const c of configEdit) {
       delete c.mapping;
     }
