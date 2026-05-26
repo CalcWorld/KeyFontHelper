@@ -7,6 +7,7 @@ const {
   MW_PASSWORD,
   MW_PAGE_SERIES,
   MW_PAGE_CONFIG,
+  MW_KEEP_MAPPING,
 } = process.env;
 
 if (!MW_API || !MW_USERNAME || !MW_PASSWORD || !MW_PAGE_SERIES || !MW_PAGE_CONFIG) {
@@ -31,9 +32,19 @@ async function main() {
   );
   console.log('SERIES RESULT:', res1?.['edit']?.['result']);
 
+  let configEdit;
+  if (MW_KEEP_MAPPING === 'off') {
+    configEdit = JSON.parse(JSON.stringify(config, null, 2));
+    for (const c of configEdit) {
+      delete c.mapping;
+    }
+  } else {
+    configEdit = config;
+  }
+
   const res2 = await bot.edit(
     MW_PAGE_CONFIG,
-    JSON.stringify(config, null, 2),
+    JSON.stringify(configEdit, null, 2),
     'Auto update config.json',
   );
   console.log('CONFIG RESULT:', res2?.['edit']?.['result']);

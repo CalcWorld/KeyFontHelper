@@ -29,3 +29,4 @@ jobs:
           MW_PASSWORD: ${{ secrets.MW_PASSWORD }}
           MW_PAGE_SERIES: ${{ secrets.MW_PAGE_SERIES }}
           MW_PAGE_CONFIG: ${{ secrets.MW_PAGE_CONFIG }}
+          MW_KEEP_MAPPING: ${{ secrets.MW_KEEP_MAPPING }}
