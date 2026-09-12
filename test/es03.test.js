@@ -1,8 +1,9 @@
-import { keyTextMappingConvert, text2KeyFont } from "../src/index.js";
-import { es03 } from "../src/config/es/es03.js";
+import { text2KeyFont } from '../src/index.js';
+import { es03 } from '../src/config/es/es03.js';
+import { keyTextMappingConvert } from '../src/config/_common.js';
 
 const a = keyTextMappingConvert('es03', es03);
 console.log(a);
 
-console.log(text2KeyFont('es03', '1[+][1]'))
-console.log(text2KeyFont('es03', '1(Conv)'))
+console.log(text2KeyFont('es03', '1[+][1]'));
+console.log(text2KeyFont('es03', '1(Conv)'));
