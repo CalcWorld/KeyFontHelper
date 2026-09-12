@@ -10,7 +10,8 @@ import {
   b_integral_cw,
   copy,
   del,
-  k_dms, k_sen,
+  k_dms,
+  k_sen,
   update,
 } from '../_common.js';
 
