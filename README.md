@@ -14,9 +14,10 @@ that matches the appearance of actual calculator keys.
 
 ## Supported Fonts
 
-- **ClassWiz CW Series**: ClasWiz CW01, CW02
+- **ClassWiz CW Series**: ClasWiz CW01, CW02, CW03, CW04
 - **ClassWiz EX Series**: ClassWiz, DE, Fr, CE, RS
-- **fx-ES(PLUS) Series**: ES03, ES04
+- **fx-ES (PLUS) Series**: ES03, ES04
+- **fx-MS Series**: MS01
 
 ## Quick Start
 
