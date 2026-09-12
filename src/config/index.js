@@ -9,6 +9,8 @@ import { cwrs } from './ex/cwrs.js';
 import { cwfr } from './ex/cwfr.js';
 import { keyTextMappingConvert } from './_common.js';
 import { ms01 } from './ms/ms01.js';
+import { cw03 } from './cw/cw03.js';
+import { cw04 } from './cw/cw04.js';
 
 export const series_cw = 'cw';
 export const series_ex = 'ex';
@@ -28,6 +30,18 @@ const config = [
     font: 'cw02',
     family: 'CASIO ClassWiz CW02',
     mapping: cw02,
+    series: series_cw,
+  },
+  {
+    font: 'cw03',
+    family: 'CASIO ClassWiz CW03',
+    mapping: cw03,
+    series: series_cw,
+  },
+  {
+    font: 'cw04',
+    family: 'CASIO ClassWiz CW04',
+    mapping: cw04,
     series: series_cw,
   },
   {

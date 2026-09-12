@@ -37,6 +37,20 @@ export function keyTextMappingConvert(font, mapping) {
   return keyTextBased;
 }
 
+/**
+ *
+ * @param {string[]} raw
+ * @return {string[]}
+ */
+const getLabelKey = raw => raw.map(i => `[${i}]`);
+
+/**
+ *
+ * @param {string[]} raw
+ * @return {string[]}
+ */
+const getShiftKey = raw => raw.map(i => `(${i})`);
+
 export const k_frac = ['[■/□]', '[d/c]'];
 export const k_eng = ['[ENG]'];
 export const k_hyp = ['[hyp]'];
@@ -57,10 +71,12 @@ export const k_ac = ['[AC]'];
 export const k_up = ['[↑]', '[Up]'];
 export const b_nsqrt = ['(■√(□))', '(nth Root)', '(n sqrt a)'];
 export const k_ans = ['[Ans]'];
+export const b_ans = ['(Ans)'];
 export const k_multi = ['[×]', '[*]'];
 export const k_division = ['[÷]', '[/]'];
 export const k_down = ['[↓]', '[Down]'];
 export const b_i = ['(i)'];
+export const k_ddx = ['[d/dx]'];
 export const b_ddx = ['(d/dx)'];
 export const b_arg = ['(∠)', '(arg)'];
 export const k_left = ['[←]', '[Left]'];
@@ -72,12 +88,20 @@ export const k_plus = ['[+]'];
 export const k_dot = ['[.]'];
 export const b_comma = ['(,)'];
 export const k_divisionr = ['[÷R]', '[/R]'];
-export const b_reciprocal = ['(x⁻¹)', '(x^-1)'];
+const _fr_divisionr = ['├', '|-'];
+export const k_fr_divisionr = getLabelKey(_fr_divisionr);
+export const b_fr_divisionr = getShiftKey(_fr_divisionr);
+const _es_divisionr = ['|__', '∟', '⌙'];
+export const k_es_divisionr = getLabelKey(_es_divisionr);
+export const b_es_divisionr = getShiftKey(_es_divisionr);
+const _reciprocal = ['x⁻¹', 'x^-1'];
+export const k_reciprocal = getLabelKey(_reciprocal);
+export const b_reciprocal = getShiftKey(_reciprocal);
 export const b_reciprocal_cw = ['(■⁻¹)', '(x⁻¹)', '(x^-1)'];
-export const k_reciprocal = ['[x⁻¹]', '[x^-1]'];
 export const k_comma = ['[,]'];
-export const b_pi = ['(π)', '(Pi)'];
-export const k_pi = ['[π]', '[Pi]'];
+const _pi = ['π', 'Pi'];
+export const k_pi = getLabelKey(_pi);
+export const b_pi = getShiftKey(_pi);
 export const b_sin1 = ['(sin⁻¹)', '(sin^-1)'];
 export const b_cos1 = ['(cos⁻¹)', '(cos^-1)'];
 export const b_tan1 = ['(tan⁻¹)', '(tan^-1)'];
@@ -85,6 +109,7 @@ export const b_rec = ['((■))', '((rec))'];
 export const b_rec_ = ['(■^-)', '(rec^-)'];
 export const b_rec__ = ['(■^.)', '(rec^.)'];
 export const k_abs = ['[Abs]'];
+export const b_abs = ['(|■|)'];
 export const k_ln = ['[ln]'];
 export const k_mplus = ['[M+]'];
 export const k_mminus = ['[M-]'];
@@ -95,24 +120,30 @@ export const k_shift = ['[SHIFT]'];
 export const k_calc = ['[CALC]'];
 export const k_dms = ['[°\'"]', '[\'\'"]', '[DMS]'];
 export const k_integral = ['[∫]', '[∫dx]', '[Integral]'];
+export const b_integral_cw = ['(∫)', '(Integral)'];
 const _adc = ['■(□/□)', 'a d/c', 'ad/c'];
-export const b_adc = _adc.map(i => `(${i})`);
-export const k_adc = _adc.map(i => `[${i}]`);
+export const k_adc = getLabelKey(_adc);
+export const b_adc = getShiftKey(_adc);
 export const k_cube = ['[x³]', '[x^3]'];
 export const b_10n = ['(10^■)', '(10^x)'];
 export const b_en = ['(e^■)', '(e^x)'];
-export const b_sigma = ['(Σ)', '(Sigma)'];
+const _sigma = ['Σ', 'Sigma'];
+export const k_sigma = getLabelKey(_sigma);
+export const b_sigma = getShiftKey(_sigma);
 export const k_sci = ['[×10^x]', '[*10^x]'];
 const _abc2dc = ['a(b/c)⇔d/c', 'a b/c⇔d/c', 'a(b/c)<=>d/c', 'a b/c<=>d/c', 'a(b/c)<>d/c', 'a b/c<>d/c'];
-export const b_abc2dc = _abc2dc.map(i => `(${i})`);
-export const k_abc2dc = _abc2dc.map(i => `[${i}]`);
+export const k_abc2dc = getLabelKey(_abc2dc);
+export const b_abc2dc = getShiftKey(_abc2dc);
 export const k_alpha = ['[ALPHA]'];
 export const b_3sqrt = ['(³√(■))', '(³√)', '(3rd Root)', '(3 sqrt a)'];
 export const k_on = ['[ON]'];
 export const b_left = ['(←)', '(Left)'];
 export const k_xf = ['[x!]'];
+export const b_xf_cw = ['(!)'];
 export const k_power = ['[x^■]', '[^]'];
-export const k_power_cw = ['[■^□]', '[x^■]', '[^]'];
+const _power_cw = ['■^□', 'x^■', '^'];
+export const k_power_cw = getLabelKey(_power_cw);
+export const b_power_cw = getShiftKey(_power_cw);
 export const k_simp = ['[Simp]'];
 export const b_product = ['(Π)', '(Product)'];
 export const b_per = ['(%)'];
@@ -124,15 +155,25 @@ export const k_suppr = ['[SUPPR]'];
 export const k_seconde = ['[SECONDE]'];
 export const b_a10n = ['(a×10^n)', '(a*10^n)'];
 export const k_rep = ['[Rép]', '[Rep]'];
-export const k_fr_divisionr = ['[├]', '[|-]'];
 export const b_arcsin = ['(Arcsin)'];
 export const b_arccos = ['(Arccos)'];
 export const b_arctan = ['(Arctan)'];
 export const b_arctg = ['(Arctg)'];
+export const b_arcsen = ['(Arcsen)'];
 export const k_sen = ['[sen]'];
+export const b_sen1 = ['(sen⁻¹)', '(sen^-1)'];
 export const b_rcl = ['[RCL]'];
 export const k_power_ms = ['[^]'];
 export const k_mode = ['[MODE]'];
 export const k_X = ['[X]'];
 export const k_Y = ['[Y]'];
 export const k_x = ['[x]'];
+export const b_format = ['(🔄)', '(转换菜单)', '(FORMAT Menu)'];
+const _fx = ['f(x)', 'FUNCTION', '函数', '功能', 'FONCTION', 'FUNCTIE'];
+export const k_fx = getLabelKey(_fx);
+export const b_fx = getShiftKey(_fx);
+export const b_ncr = ['(nCr)'];
+export const b_npr = ['(nPr)'];
+const _ran = ['Ran#'];
+export const k_ran = getLabelKey(_ran);
+export const b_ran = getShiftKey(_ran);
