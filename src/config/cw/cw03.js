@@ -1,6 +1,6 @@
 import { cw01 } from './cw01.js';
 import {
-  b_abs,
+  b_abs_cw,
   b_arccos,
   b_arcsen,
   b_arctan,
@@ -22,7 +22,7 @@ update(cw03, {
   't': b_arcsen,
   'u': b_arctan,
   'y': b_arccos,
-  'D': b_abs,
+  'D': b_abs_cw,
   'H': b_en,
   'J': b_integral_cw,
   'S': k_dms,

@@ -1,5 +1,5 @@
 import {
-  b_abs,
+  b_abs_cw,
   b_integral_cw,
   b_ncr,
   b_npr,
@@ -30,7 +30,7 @@ update(cw04, {
   't': b_sen1,
   'v': b_npr,
   'y': b_ran,
-  'D': b_abs,
+  'D': b_abs_cw,
   'G': k_ddx,
   'H': b_xf_cw,
   'J': b_integral_cw,
