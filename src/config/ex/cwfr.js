@@ -1,5 +1,6 @@
 import {
   b_a10n,
+  b_a_bc2dc,
   b_arccos,
   b_arcsin,
   b_arctan,
@@ -23,6 +24,7 @@ update(cwfr, {
   't': b_a10n,
   'L': ['(CONFIG)'],
   'M': k_rep,
+  'N': b_a_bc2dc,
   '-': k_fr_divisionr,
   '<': b_arcsin,
   '>': b_arccos,
