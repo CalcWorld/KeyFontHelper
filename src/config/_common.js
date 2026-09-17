@@ -132,7 +132,7 @@ const _sigma = ['Σ', 'Sigma', 'Sum'];
 export const k_sigma = getLabelKey(_sigma);
 export const b_sigma = getShiftKey(_sigma);
 export const k_sci = ['[×10^x]', '[*10^x]'];
-const _abc2dc = ['a(b/c)⇔d/c', 'a b/c⇔d/c', 'a(b/c)<=>d/c', 'a b/c<=>d/c', 'a(b/c)<>d/c', 'a b/c<>d/c'];
+const _abc2dc = ['ab/c⇔d/c', 'ab/c<=>d/c', 'ab/c<>d/c'];
 export const k_abc2dc = getLabelKey(_abc2dc);
 export const b_abc2dc = getShiftKey(_abc2dc);
 const _replace_a = items => items.map(i => i.replace(/a ?/, 'a+'));

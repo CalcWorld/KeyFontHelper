@@ -63,7 +63,7 @@ import {
 } from '../_common.js';
 
 const ms01 = {
-  'a': ['[a b/c]'],
+  'a': ['[ab/c]'],
   'b': k_eng,
   'c': k_hyp,
   'd': k_square,
