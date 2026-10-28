@@ -6,6 +6,15 @@ Demo: [kfh.pages.dev](https://kfh.pages.dev)
 
 GitHub: [CalcWorld/KeyFontHelper](https://github.com/CalcWorld/KeyFontHelper)
 
+## Installation
+
+```bash
+npm install calc-key
+```
+
+The package includes the conversion library and mappings. Font files are not included;
+load the corresponding calculator fonts separately to display the generated HTML correctly.
+
 ## What it does
 
 Calculator Key Font Helper transforms calculator notation like `[sin]30` into properly styled
@@ -22,6 +31,8 @@ that matches the appearance of actual calculator keys.
 ## Quick Start
 
 ```javascript
+import { text2KeyFont, text2KeyFontBySeries } from 'calc-key';
+
 // Convert text for a specific calculator font
 const result1 = text2KeyFont('cw01', '[sin]30[)][+][cos]60');
 // <span style="font-family:'CASIO ClassWiz CW01'">j</span>30<span style="font-family:'CASIO ClassWiz CW01'">)</span><span style="font-family:'CASIO ClassWiz CW01'">+</span><span style="font-family:'CASIO ClassWiz CW01'">k</span>60
@@ -31,18 +42,26 @@ const result2 = text2KeyFontBySeries('cw', '[tg]30[)][+][cos]60');
 // <span style="font-family:'CASIO ClassWiz CW02'">:</span>30<span style="font-family:'CASIO ClassWiz CW01'">)</span><span style="font-family:'CASIO ClassWiz CW01'">+</span><span style="font-family:'CASIO ClassWiz CW01'">k</span>60
 
 // [Option] Enable title and aria-label attribute
-const result2 = text2KeyFontBySeries('cw', '5[d/c]6', { title: true, ariaLabel: true });
+const result3 = text2KeyFontBySeries('cw', '5[d/c]6', { title: true, ariaLabel: true });
 // 5<span style="font-family:'CASIO ClassWiz CW01'" title="&#x005B;&#x0064;&#x002F;&#x0063;&#x005D;" aria-label="&#x005B;&#x0064;&#x002F;&#x0063;&#x005D;">a</span>6
 ```
 
-## Installation
+### CommonJS
 
-```bash
-npm install
-npm run build
+```javascript
+const { text2KeyFont, text2KeyFontBySeries, config, series } = require('calc-key');
 ```
 
-The built library will be available in the `dist/` directory as `kfh.js`.
+### Browser script
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/calc-key@1.0.0/dist/kfh.js"></script>
+<script>
+  const html = kfh.text2KeyFont('cw01', '[sin]30');
+</script>
+```
+
+ES modules and CommonJS expose `text2KeyFont`, `text2KeyFontBySeries`, `config`, and `series`.
 
 ## API Call
 
@@ -80,10 +99,17 @@ GET /api/html?type=series&series=cw&text=[tg]30[)][%2B][cos]60
 ## Development
 
 ```bash
+npm ci
 npm run serve  # Start development server without API on localhost:8091
 npm run dev  # Start development server with API on localhost:8791
-npm run build  # Build for production
+npm run build  # Build the demo and all library formats
+npm run build:lib  # Build only the library formats
+npm pack --dry-run  # Build and inspect the npm package contents
 ```
+
+Library builds produce `dist/kfh.js` (UMD, browser global `kfh`), `dist/kfh.mjs`
+(ES module), and `dist/kfh.cjs` (CommonJS). `prepack` builds them automatically
+before packing or publishing. Library source files are included in the package.
 
 ## How it works
 
@@ -91,7 +117,30 @@ The library maps characters to calculator key representations using font-specifi
 
 ## Notes
 
-The library includes automated CI/CD through GitHub Actions that builds and publishes to the `dist` branch on every push to master. A demo interface is included in `src/index.html` for testing the conversion functionality and displaying the mapping.
+A demo interface is included in `src/index.html` for trying the conversion functionality
+and displaying the mapping. Pushes to `master` synchronize mappings to MediaWiki.
+
+## npm publishing
+
+The first release is published locally with an authenticated npm account:
+
+```bash
+npm login --registry=https://registry.npmjs.org/
+npm publish
+```
+
+For subsequent releases, configure the package's Trusted Publisher on npmjs.com
+for GitHub Actions with owner `CalcWorld`, repository `KeyFontHelper`, workflow
+filename `publish.yml`, no environment, and direct `npm publish` permission.
+Then push a new version tag, for example:
+
+```bash
+git tag v1.0.1
+git push origin v1.0.1
+```
+
+The workflow derives the npm version from the tag and publishes using OIDC without
+an npm token. Each release must use a version that has not already been published.
 
 ## LICENSE
 [GPL-3.0-or-later](LICENSE)

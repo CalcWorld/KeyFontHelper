@@ -61,11 +61,40 @@ const config = {
   devtool: isProduction ? false : 'eval-source-map',
 };
 
-module.exports = () => {
-  if (isProduction) {
-    config.mode = 'production';
-  } else {
-    config.mode = 'development';
-  }
-  return config;
+module.exports = (env = {}) => {
+  const browserConfig = {
+    ...config,
+    mode: isProduction ? 'production' : 'development',
+    plugins: env.library ? [] : config.plugins,
+  };
+  if (!isProduction) return browserConfig;
+
+  const libraryConfig = {
+    entry: './src/index.js',
+    mode: 'production',
+    module: { rules: [{ test: /\.(js|jsx)$/i, loader: 'babel-loader' }] },
+    devtool: false,
+  };
+  return [
+    browserConfig,
+    {
+      ...libraryConfig,
+      target: 'node',
+      output: {
+        path: path.resolve(__dirname, 'dist'),
+        filename: 'kfh.cjs',
+        library: { type: 'commonjs2' },
+      },
+    },
+    {
+      ...libraryConfig,
+      target: ['web', 'es2020'],
+      experiments: { outputModule: true },
+      output: {
+        path: path.resolve(__dirname, 'dist'),
+        filename: 'kfh.mjs',
+        library: { type: 'module' },
+      },
+    },
+  ];
 };

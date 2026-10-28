@@ -1,16 +1,49 @@
 {
-  "name": "key-font-helper",
+  "name": "calc-key",
   "version": "1.0.0",
   "description": "Calculator key font helper",
-  "main": "src/index.js",
+  "main": "./dist/kfh.cjs",
+  "module": "./dist/kfh.mjs",
+  "browser": "./dist/kfh.js",
+  "exports": {
+    ".": {
+      "import": "./dist/kfh.mjs",
+      "require": "./dist/kfh.cjs"
+    },
+    "./dist/kfh.js": "./dist/kfh.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist/kfh.js",
+    "dist/kfh.cjs",
+    "dist/kfh.mjs",
+    "dist/*.LICENSE.txt",
+    "src/index.js",
+    "src/config/",
+    "webpack.config.cjs"
+  ],
   "type": "module",
+  "sideEffects": false,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --mode=production --node-env=production",
+    "build:lib": "webpack --env library --mode=production --node-env=production",
+    "prepack": "npm run build:lib",
     "serve": "webpack serve",
     "dev": "wrangler dev --ip=0.0.0.0 --port=8791"
   },
-  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CalcWorld/KeyFontHelper.git"
+  },
+  "homepage": "https://github.com/CalcWorld/KeyFontHelper#readme",
+  "bugs": {
+    "url": "https://github.com/CalcWorld/KeyFontHelper/issues"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "keywords": ["calculator", "casio", "classwiz", "key", "font"],
   "author": "CalcWorld",
   "license": "GPL-3.0-or-later",
   "devDependencies": {
