@@ -19,8 +19,7 @@
     "dist/kfh.mjs",
     "dist/*.LICENSE.txt",
     "src/index.js",
-    "src/config/",
-    "webpack.config.cjs"
+    "src/config/"
   ],
   "type": "module",
   "sideEffects": false,
