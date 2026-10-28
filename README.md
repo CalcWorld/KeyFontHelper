@@ -55,7 +55,7 @@ const { text2KeyFont, text2KeyFontBySeries, config, series } = require('calc-key
 ### Browser script
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/calc-key@1.0.0/dist/kfh.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/calc-key/dist/kfh.js"></script>
 <script>
   const html = kfh.text2KeyFont('cw01', '[sin]30');
 </script>
@@ -119,28 +119,6 @@ The library maps characters to calculator key representations using font-specifi
 
 A demo interface is included in `src/index.html` for trying the conversion functionality
 and displaying the mapping. Pushes to `master` synchronize mappings to MediaWiki.
-
-## npm publishing
-
-The first release is published locally with an authenticated npm account:
-
-```bash
-npm login --registry=https://registry.npmjs.org/
-npm publish
-```
-
-For subsequent releases, configure the package's Trusted Publisher on npmjs.com
-for GitHub Actions with owner `CalcWorld`, repository `KeyFontHelper`, workflow
-filename `publish.yml`, no environment, and direct `npm publish` permission.
-Then push a new version tag, for example:
-
-```bash
-git tag v1.0.1
-git push origin v1.0.1
-```
-
-The workflow derives the npm version from the tag and publishes using OIDC without
-an npm token. Each release must use a version that has not already been published.
 
 ## LICENSE
 [GPL-3.0-or-later](LICENSE)
