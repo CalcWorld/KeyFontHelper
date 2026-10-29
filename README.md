@@ -61,26 +61,59 @@ const { text2KeyFont, text2KeyFontBySeries, config, series } = require('calc-key
 </script>
 ```
 
-ES modules and CommonJS expose `text2KeyFont`, `text2KeyFontBySeries`, `config`, and `series`.
+ES modules, CommonJS and browser scripts expose `text2KeyFont`, `text2KeyFontBySeries`,
+`tokenize`, `tokenizeBySeries`, `config`, and `series`.
+
+### Structured output
+
+Use `tokenize(font, text)` for a specific font or `tokenizeBySeries(series, text)`
+for a series. They use the same matching rules as the HTML functions and return
+plain data, with no HTML escaping or markup parsing:
+
+```javascript
+import { tokenizeBySeries } from 'calc-key';
+
+tokenizeBySeries('cw', '[sin]30');
+// [
+//   { type: 'key', font: 'cw01', family: 'CASIO ClassWiz CW01', glyph: 'j', label: '[sin]' },
+//   { type: 'text', value: '30' }
+// ]
+```
+
+Text tokens preserve unmatched content exactly. Key tokens contain the selected
+font, its family, the display glyph and the original alias as `label`.
+Empty input returns `[]`; unknown font and series names throw, as in the HTML API.
 
 ### TypeScript and React
 
-TypeScript declarations are included, with `Font`, `Series`, `Options`, and `FontConfig` types.
-Both conversion functions take a **string** and return an **HTML string**, not React elements.
-Passing the result as React children displays the HTML markup as text.
-
-For trusted string content:
+TypeScript declarations are generated from JavaScript and JSDoc, including `Font`,
+`Series`, `Options`, `FontConfig`, and the `Token`, `TextToken`, `KeyToken` union types.
+In React, render tokens as ordinary text and elements:
 
 ```tsx
-import { text2KeyFontBySeries } from 'calc-key';
+import { tokenizeBySeries } from 'calc-key';
 
 function CalculatorKeys({ text }: { text: string }) {
-  return <span dangerouslySetInnerHTML={{ __html: text2KeyFontBySeries('cw', text) }} />;
+  return (
+    <span>
+      {tokenizeBySeries('cw', text).map((token, index) =>
+        token.type === 'text' ? token.value : (
+          <span key={index} style={{ fontFamily: token.family }} title={token.label}>
+            {token.glyph}
+          </span>
+        )
+      )}
+    </span>
+  );
 }
 ```
 
-Unmatched content, including HTML, is preserved; the converter does not sanitize input.
-Sanitize untrusted HTML before inserting the result into the page.
+React escapes the token values normally, so input such as `<img>` remains literal
+text.
+
+The existing `text2KeyFont` and `text2KeyFontBySeries` functions still return HTML
+strings and preserve unmatched HTML. They do not sanitize input; sanitize untrusted
+HTML before inserting their result into the page.
 
 Series conversion scans the input once. At each position, longer aliases take priority;
 if multiple fonts define the same alias, the first font in `config` is used.

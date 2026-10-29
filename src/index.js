@@ -7,6 +7,9 @@ import { config, series } from './config/index.js';
  * @typedef {Object} Options
  * @property {boolean} [title] 添加按键名称提示
  * @property {boolean} [ariaLabel] 添加按键无障碍标签
+ * @typedef {{ type: 'text', value: string }} TextToken
+ * @typedef {{ type: 'key', font: Font, family: string, glyph: string, label: string }} KeyToken
+ * @typedef {TextToken | KeyToken} Token
  */
 
 /**
@@ -57,14 +60,14 @@ function renderKeySpan(family, content, keyText, options = {}) {
  * 合并字体映射并缓存匹配规则。同名别名保留配置中第一个字体。
  *
  * @param {FontConfig[]} keyConfigs 要使用的字体配置
- * @returns {(text: string, options?: Options) => string} HTML 转换函数
+ * @returns {{ html: (text: string, options?: Options) => string, tokenize: (text: string) => Token[] }} 转换函数
  */
 function createConverter(keyConfigs) {
   const keys = new Map();
   for (const keyConfig of keyConfigs) {
     for (const [keyText, content] of Object.entries(keyConfig.reverseMapping)) {
       if (!keys.has(keyText)) {
-        keys.set(keyText, { family: keyConfig.family, content });
+        keys.set(keyText, { font: keyConfig.font, family: keyConfig.family, glyph: content });
       }
     }
   }
@@ -72,11 +75,29 @@ function createConverter(keyConfigs) {
   const alternatives = [...keys.keys()].sort((a, b) => b.length - a.length);
   const pattern = new RegExp(alternatives.map(escapeRegExp).join('|'), 'g');
 
-  // 只扫描原始输入，避免较短的别名提前破坏其他字体的完整按键。
-  return (text, options = {}) => text.replace(pattern, matched => {
-    const { family, content } = keys.get(matched);
-    return renderKeySpan(family, content, matched, options);
-  });
+  // HTML 和 token 共用匹配规则，只扫描原始输入。
+  return {
+    html: (text, options = {}) => text.replace(pattern, matched => {
+      const { family, glyph } = keys.get(matched);
+      return renderKeySpan(family, glyph, matched, options);
+    }),
+    tokenize(text) {
+      /** @type {Token[]} */
+      const tokens = [];
+      let offset = 0;
+      for (const match of text.matchAll(pattern)) {
+        if (match.index > offset) {
+          tokens.push({ type: 'text', value: text.slice(offset, match.index) });
+        }
+        tokens.push({ type: 'key', ...keys.get(match[0]), label: match[0] });
+        offset = match.index + match[0].length;
+      }
+      if (offset < text.length) {
+        tokens.push({ type: 'text', value: text.slice(offset) });
+      }
+      return tokens;
+    },
+  };
 }
 
 const fontConverters = new Map(config.map(keyConfig => [keyConfig.font, createConverter([keyConfig])]));
@@ -98,7 +119,7 @@ export function text2KeyFont(font, text, options = {}) {
   if (!convert) {
     throw new Error(`Unknown font: ${font}`);
   }
-  return convert(text, options);
+  return convert.html(text, options);
 }
 
 /**
@@ -115,7 +136,37 @@ export function text2KeyFontBySeries(seriesKey, text, options = {}) {
     throw new Error(`Unknown series: ${seriesKey}`);
   }
 
-  return convert(text, options);
+  return convert.html(text, options);
+}
+
+/**
+ * 将指定字体的按键标记拆分为文本和按键数据，不生成 HTML。
+ *
+ * @param {Font} font 字体名称
+ * @param {string} text 要处理的文本
+ * @returns {Token[]} 文本和按键 token
+ */
+export function tokenize(font, text) {
+  const convert = fontConverters.get(font);
+  if (!convert) {
+    throw new Error(`Unknown font: ${font}`);
+  }
+  return convert.tokenize(text);
+}
+
+/**
+ * 根据系列拆分文本和按键数据，字体优先级与 HTML 转换相同。
+ *
+ * @param {Series} seriesKey 系列名称
+ * @param {string} text 要处理的文本
+ * @returns {Token[]} 文本和按键 token
+ */
+export function tokenizeBySeries(seriesKey, text) {
+  const convert = seriesConverters.get(seriesKey);
+  if (!convert) {
+    throw new Error(`Unknown series: ${seriesKey}`);
+  }
+  return convert.tokenize(text);
 }
 
 export { config, series } from './config/index.js';

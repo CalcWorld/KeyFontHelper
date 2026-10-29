@@ -17,6 +17,9 @@ for (const [name, library] of [['ESM', esm], ['CommonJS', require('calc-key')], 
       for (const alias of Object.keys(font.reverseMapping)) {
         assert.equal(library.text2KeyFont(font.font, alias), source.text2KeyFont(font.font, alias));
         assert.equal(library.text2KeyFontBySeries(font.series, alias), source.text2KeyFontBySeries(font.series, alias));
+        // The browser bundle runs in another realm; compare serialized token values.
+        assert.equal(JSON.stringify(library.tokenize(font.font, alias)), JSON.stringify(source.tokenize(font.font, alias)));
+        assert.equal(JSON.stringify(library.tokenizeBySeries(font.series, alias)), JSON.stringify(source.tokenizeBySeries(font.series, alias)));
       }
     }
     assert.equal(

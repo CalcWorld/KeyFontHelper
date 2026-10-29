@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { config, series, text2KeyFont, text2KeyFontBySeries } from '../src/index.js';
+import { config, series, text2KeyFont, text2KeyFontBySeries, tokenize, tokenizeBySeries } from '../src/index.js';
 
 const span = (family, content) => `<span style="font-family:'${family}'">${content}</span>`;
 
@@ -63,4 +63,64 @@ test('cached matchers can be reused across calls', () => {
 test('unknown fonts and series keep their existing errors', () => {
   assert.throws(() => text2KeyFont('unknown', '[sin]'), /Unknown font: unknown/);
   assert.throws(() => text2KeyFontBySeries('unknown', '[sin]'), /Unknown series: unknown/);
+  assert.throws(() => tokenize('unknown', '[sin]'), /Unknown font: unknown/);
+  assert.throws(() => tokenizeBySeries('unknown', '[sin]'), /Unknown series: unknown/);
+});
+
+test('tokenize returns plain text and complete key metadata in order', () => {
+  assert.deepEqual(tokenize('cw01', 'before [sin]30[+] after'), [
+    { type: 'text', value: 'before ' },
+    { type: 'key', font: 'cw01', family: 'CASIO ClassWiz CW01', glyph: 'j', label: '[sin]' },
+    { type: 'text', value: '30' },
+    { type: 'key', font: 'cw01', family: 'CASIO ClassWiz CW01', glyph: '+', label: '[+]' },
+    { type: 'text', value: ' after' },
+  ]);
+});
+
+test('every font and series alias has the correct token metadata', () => {
+  for (const font of config) {
+    for (const [glyph, aliases] of Object.entries(font.mapping)) {
+      for (const alias of aliases) {
+        assert.deepEqual(tokenize(font.font, alias), [
+          { type: 'key', font: font.font, family: font.family, glyph, label: alias },
+        ], `${font.font}: ${alias}`);
+        const first = config.find(candidate => candidate.series === font.series && Object.hasOwn(candidate.reverseMapping, alias));
+        assert.deepEqual(tokenizeBySeries(font.series, alias), [
+          { type: 'key', font: first.font, family: first.family, glyph: first.reverseMapping[alias], label: alias },
+        ], `${font.series}: ${alias}`);
+      }
+    }
+  }
+});
+
+test('tokenizeBySeries preserves full aliases and mixes fonts', () => {
+  assert.deepEqual(tokenizeBySeries('cw', '(f(x))[sin][tg]'), [
+    { type: 'key', font: 'cw03', family: 'CASIO ClassWiz CW03', glyph: 'r', label: '(f(x))' },
+    { type: 'key', font: 'cw01', family: 'CASIO ClassWiz CW01', glyph: 'j', label: '[sin]' },
+    { type: 'key', font: 'cw02', family: 'CASIO ClassWiz CW02', glyph: ':', label: '[tg]' },
+  ]);
+});
+
+test('token text and glyphs remain literal rather than HTML-encoded', () => {
+  assert.deepEqual(tokenize('cw01', '<img src=x> & [unknown]'), [
+    { type: 'text', value: '<img src=x> & [unknown]' },
+  ]);
+  assert.deepEqual(tokenize('cw01', '(sin^-1)'), [
+    { type: 'key', font: 'cw01', family: 'CASIO ClassWiz CW01', glyph: '<', label: '(sin^-1)' },
+  ]);
+  assert.deepEqual(tokenizeBySeries('ex', '[S<=>D]'), [
+    { type: 'key', font: 'cwex', family: 'CASIO ClassWiz', glyph: 'n', label: '[S<=>D]' },
+  ]);
+  assert.deepEqual(tokenize('cw01', ''), []);
+  assert.deepEqual(tokenizeBySeries('cw', ''), []);
+});
+
+test('token and HTML calls can be interleaved without sharing mutable results', () => {
+  const tokens = tokenizeBySeries('cw', '[sin]');
+  tokens[0].glyph = 'changed';
+  assert.deepEqual(tokenizeBySeries('cw', '[sin]'), [
+    { type: 'key', font: 'cw01', family: 'CASIO ClassWiz CW01', glyph: 'j', label: '[sin]' },
+  ]);
+  assert.equal(text2KeyFontBySeries('cw', '[sin]'), span('CASIO ClassWiz CW01', 'j'));
+  assert.deepEqual(tokenizeBySeries('cw', '30'), [{ type: 'text', value: '30' }]);
 });

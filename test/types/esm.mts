@@ -1,4 +1,4 @@
-import { config, series, text2KeyFont, text2KeyFontBySeries, type Font, type Series, type Options, type FontConfig } from 'calc-key';
+import { config, series, text2KeyFont, text2KeyFontBySeries, tokenize, tokenizeBySeries, type Font, type Series, type Options, type FontConfig, type Token, type KeyToken, type TextToken } from 'calc-key';
 
 const font: Font = 'cw03';
 const group: Series = 'cw';
@@ -10,6 +10,21 @@ const aliases: string[] = fontConfig.mapping['j'];
 for (const group of series) text2KeyFontBySeries(group, '[sin]');
 for (const font of config) text2KeyFont(font.font, '[sin]');
 text2KeyFontBySeries(group, html);
+const tokens: Token[] = tokenize(font, '(f(x))');
+for (const token of tokenizeBySeries(group, '[sin]30')) {
+  if (token.type === 'key') {
+    const key: KeyToken = token;
+    const glyph: string = key.glyph;
+    const sourceFont: Font = key.font;
+    // @ts-expect-error A key token does not have a text value.
+    token.value;
+  } else {
+    const text: TextToken = token;
+    const value: string = text.value;
+    // @ts-expect-error A text token does not have a glyph.
+    token.glyph;
+  }
+}
 
 // @ts-expect-error Font names come from the built-in configuration.
 text2KeyFont('unknown', '');
@@ -23,3 +38,7 @@ text2KeyFont(font, '', { title: 'yes' });
 const invalidGlyph: number = fontConfig.reverseMapping['[sin]'];
 // @ts-expect-error Unknown option names should be rejected.
 text2KeyFont(font, '', { debug: true });
+// @ts-expect-error Tokenizers use the same font names as the HTML API.
+tokenize('unknown', '');
+// @ts-expect-error Tokenizers accept text strings.
+tokenizeBySeries(group, ['[sin]']);
