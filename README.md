@@ -6,15 +6,6 @@ Demo: [kfh.pages.dev](https://kfh.pages.dev)
 
 GitHub: [CalcWorld/KeyFontHelper](https://github.com/CalcWorld/KeyFontHelper)
 
-## Installation
-
-```bash
-npm install calc-key
-```
-
-The package includes the conversion library and mappings. Font files are not included;
-load the corresponding calculator fonts separately to display the generated HTML correctly.
-
 ## What it does
 
 Calculator Key Font Helper transforms calculator notation like `[sin]30` into properly styled
@@ -27,6 +18,15 @@ that matches the appearance of actual calculator keys.
 - **ClassWiz EX Series**: ClassWiz, DE, Fr, CE, RS
 - **fx-ES (PLUS) Series**: ES03, ES04
 - **fx-MS Series**: MS01
+
+## Installation
+
+```bash
+npm install calc-key
+```
+
+The package includes the conversion library and mappings. Font files are not included;
+load the corresponding calculator fonts separately to display the generated HTML correctly.
 
 ## Quick Start
 
@@ -96,29 +96,9 @@ GET /api/html?type=series&series=cw&text=[tg]30[)][%2B][cos]60
 - Replace the `font` and `series` parameters above according to your actual needs.
 - To include optional accessibility attributes, add `&title=1`, `&ariaLabel=1`, or both to the Convert Key Text API URL.
 
-## Development
-
-```bash
-npm ci
-npm run serve  # Start development server without API on localhost:8091
-npm run dev  # Start development server with API on localhost:8791
-npm run build  # Build the demo and all library formats
-npm run build:lib  # Build only the library formats
-npm pack --dry-run  # Build and inspect the npm package contents
-```
-
-Library builds produce `dist/kfh.js` (UMD, browser global `kfh`), `dist/kfh.mjs`
-(ES module), and `dist/kfh.cjs` (CommonJS). `prepack` builds them automatically
-before packing or publishing. Library source files are included in the package.
-
 ## How it works
 
 The library maps characters to calculator key representations using font-specific configurations. Each calculator font has its own key mapping that defines how text should be styled.
-
-## Notes
-
-A demo interface is included in `src/index.html` for trying the conversion functionality
-and displaying the mapping. Pushes to `master` synchronize mappings to MediaWiki.
 
 ## LICENSE
 [GPL-3.0-or-later](LICENSE)
