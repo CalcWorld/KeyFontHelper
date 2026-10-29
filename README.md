@@ -63,6 +63,28 @@ const { text2KeyFont, text2KeyFontBySeries, config, series } = require('calc-key
 
 ES modules and CommonJS expose `text2KeyFont`, `text2KeyFontBySeries`, `config`, and `series`.
 
+### TypeScript and React
+
+TypeScript declarations are included, with `Font`, `Series`, `Options`, and `FontConfig` types.
+Both conversion functions take a **string** and return an **HTML string**, not React elements.
+Passing the result as React children displays the HTML markup as text.
+
+For trusted string content:
+
+```tsx
+import { text2KeyFontBySeries } from 'calc-key';
+
+function CalculatorKeys({ text }: { text: string }) {
+  return <span dangerouslySetInnerHTML={{ __html: text2KeyFontBySeries('cw', text) }} />;
+}
+```
+
+Unmatched content, including HTML, is preserved; the converter does not sanitize input.
+Sanitize untrusted HTML before inserting the result into the page.
+
+Series conversion scans the input once. At each position, longer aliases take priority;
+if multiple fonts define the same alias, the first font in `config` is used.
+
 ## API Call
 
 ### Get Key Config

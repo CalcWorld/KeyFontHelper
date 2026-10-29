@@ -5,15 +5,24 @@
   "main": "./dist/kfh.cjs",
   "module": "./dist/kfh.mjs",
   "browser": "./dist/kfh.js",
+  "types": "./dist/types/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/kfh.mjs",
-      "require": "./dist/kfh.cjs"
+      "import": {
+        "types": "./dist/types/index.d.ts",
+        "default": "./dist/kfh.mjs"
+      },
+      "require": {
+        "types": "./dist/types-cjs/index.d.ts",
+        "default": "./dist/kfh.cjs"
+      }
     },
     "./dist/kfh.js": "./dist/kfh.js",
     "./package.json": "./package.json"
   },
   "files": [
+    "dist/types/",
+    "dist/types-cjs/",
     "dist/kfh.js",
     "dist/kfh.cjs",
     "dist/kfh.mjs",
@@ -24,9 +33,13 @@
   "type": "module",
   "sideEffects": false,
   "scripts": {
+    "test": "node --test test/index.test.js",
+    "test:package": "node --test test/package.test.js",
+    "test:types": "tsc --project test/types/tsconfig.json",
     "build": "webpack --mode=production --node-env=production",
-    "build:lib": "webpack --env library --mode=production --node-env=production",
-    "prepack": "npm run build:lib",
+    "build:types": "tsc --project tsconfig.types.json && node scripts/copy-cjs-types.js",
+    "build:lib": "webpack --env library --mode=production --node-env=production && npm run build:types",
+    "prepack": "npm test && npm run build:lib && npm run test:package && npm run test:types",
     "serve": "webpack serve",
     "dev": "wrangler dev --ip=0.0.0.0 --port=8791"
   },
@@ -51,6 +64,7 @@
     "@webpack-cli/generators": "^3.0.7",
     "babel-loader": "^9.2.1",
     "html-webpack-plugin": "^5.5.0",
+    "typescript": "5.5.4",
     "webpack": "5.104.1",
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^5.2.0",

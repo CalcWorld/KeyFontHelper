@@ -21,7 +21,13 @@ export function del(mapping, delKey) {
   delKey.forEach(e => delete mapping[e]);
 }
 
+/**
+ * @param {string} font
+ * @param {Record<string, string[]>} mapping
+ * @returns {Record<string, string>}
+ */
 export function keyTextMappingConvert(font, mapping) {
+  /** @type {Record<string, string>} */
   const keyTextBased = {};
   for (let k in mapping) {
     for (const keyText of mapping[k]) {

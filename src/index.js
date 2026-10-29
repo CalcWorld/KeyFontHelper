@@ -1,6 +1,15 @@
 import { config, series } from './config/index.js';
 
 /**
+ * @typedef {import('./config/index.js').Font} Font
+ * @typedef {import('./config/index.js').Series} Series
+ * @typedef {import('./config/index.js').FontConfig} FontConfig
+ * @typedef {Object} Options
+ * @property {boolean} [title] 添加按键名称提示
+ * @property {boolean} [ariaLabel] 添加按键无障碍标签
+ */
+
+/**
  * 将字符串中的正则特殊字符进行转义，使其可安全用于 RegExp 构造中。
  * @param {string} str 要转义的字符串
  * @returns {string} 转义后的字符串，可安全插入到正则表达式中
@@ -30,80 +39,83 @@ function toHtmlUnicodeEntities(str) {
  * @param {string} family 字体族
  * @param {string} content span 内部显示内容
  * @param {string} keyText 原始 key，用于辅助属性
- * @param {Object} [options] 可选设置项
- * @param {boolean} [options.title] 是否添加 title 属性
- * @param {boolean} [options.ariaLabel] 是否添加 aria-label 属性
+ * @param {Options} [options] 可选设置项
  * @returns {string} 生成的 HTML 字符串
  */
 function renderKeySpan(family, content, keyText, options = {}) {
   const attrs = [`style="font-family:'${family}'"`];
-  const keyTextEncode = toHtmlUnicodeEntities(keyText);
-
-  if (options.title) {
-    attrs.push(`title="${keyTextEncode}"`);
-  }
-  if (options.ariaLabel) {
-    attrs.push(`aria-label="${keyTextEncode}"`);
+  if (options.title || options.ariaLabel) {
+    const keyTextEncode = toHtmlUnicodeEntities(keyText);
+    if (options.title) attrs.push(`title="${keyTextEncode}"`);
+    if (options.ariaLabel) attrs.push(`aria-label="${keyTextEncode}"`);
   }
 
   return `<span ${attrs.join(' ')}>${content}</span>`;
 }
 
 /**
- * 应用映射，将 keyText 替换为包含样式和可选辅助属性的 HTML 标签
+ * 合并字体映射并缓存匹配规则。同名别名保留配置中第一个字体。
  *
- * @param {string} text 原始文本
- * @param {Object} mapping 映射表
- * @param {string} family 字体族
- * @param {Object} [options] 可选设置项
- * @returns {string} 替换后的文本
+ * @param {FontConfig[]} keyConfigs 要使用的字体配置
+ * @returns {(text: string, options?: Options) => string} HTML 转换函数
  */
-function applyFontMapping(text, mapping, family, options = {}) {
-  const keys = Object.keys(mapping);
-  if (keys.length === 0) return text;
+function createConverter(keyConfigs) {
+  const keys = new Map();
+  for (const keyConfig of keyConfigs) {
+    for (const [keyText, content] of Object.entries(keyConfig.reverseMapping)) {
+      if (!keys.has(keyText)) {
+        keys.set(keyText, { family: keyConfig.family, content });
+      }
+    }
+  }
 
-  const pattern = new RegExp(keys.map(escapeRegExp).join('|'), 'g');
+  const alternatives = [...keys.keys()].sort((a, b) => b.length - a.length);
+  const pattern = new RegExp(alternatives.map(escapeRegExp).join('|'), 'g');
 
-  return text.replace(pattern, matched => {
-    return renderKeySpan(family, mapping[matched], matched, options);
+  // 只扫描原始输入，避免较短的别名提前破坏其他字体的完整按键。
+  return (text, options = {}) => text.replace(pattern, matched => {
+    const { family, content } = keys.get(matched);
+    return renderKeySpan(family, content, matched, options);
   });
 }
+
+const fontConverters = new Map(config.map(keyConfig => [keyConfig.font, createConverter([keyConfig])]));
+const seriesConverters = new Map(series.map(seriesKey => [
+  seriesKey,
+  createConverter(config.filter(keyConfig => keyConfig.series === seriesKey)),
+]));
 
 /**
  * 将指定字体的 keyText 替换为对应样式的 HTML，支持添加 title/aria-label 属性
  *
- * @param {string} font 字体名称
+ * @param {Font} font 字体名称
  * @param {string} text 要处理的文本
- * @param {Object} [options] 可选设置项
+ * @param {Options} [options] 可选设置项
  * @returns {string} 替换后的文本
  */
 export function text2KeyFont(font, text, options = {}) {
-  const keyConfig = config.find(i => i.font === font);
-  if (!keyConfig) {
+  const convert = fontConverters.get(font);
+  if (!convert) {
     throw new Error(`Unknown font: ${font}`);
   }
-  return applyFontMapping(text, keyConfig.reverseMapping, keyConfig.family, options);
+  return convert(text, options);
 }
 
 /**
- * 根据系列名称替换文本，应用系列下所有字体的映射，可选辅助属性
+ * 根据系列名称替换文本，同名按键使用配置中的第一个字体，可选辅助属性
  *
- * @param {string} seriesKey 系列名称
+ * @param {Series} seriesKey 系列名称
  * @param {string} text 要处理的文本
- * @param {Object} [options] 可选设置项
+ * @param {Options} [options] 可选设置项
  * @returns {string} 替换后的文本
  */
 export function text2KeyFontBySeries(seriesKey, text, options = {}) {
-  if (!series.includes(seriesKey)) {
+  const convert = seriesConverters.get(seriesKey);
+  if (!convert) {
     throw new Error(`Unknown series: ${seriesKey}`);
   }
 
-  for (const keyConfig of config) {
-    if (keyConfig.series === seriesKey) {
-      text = applyFontMapping(text, keyConfig.reverseMapping, keyConfig.family, options);
-    }
-  }
-  return text;
+  return convert(text, options);
 }
 
 export { config, series } from './config/index.js';

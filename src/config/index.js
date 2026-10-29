@@ -17,9 +17,9 @@ export const series_ex = 'ex';
 export const series_es = 'es';
 export const series_ms = 'ms';
 
-export const series = [series_cw, series_ex, series_es, series_ms];
+export const series = [.../** @type {const} */ ([series_cw, series_ex, series_es, series_ms])];
 
-const config = [
+const config = (/** @type {const} */ ([
   {
     font: 'cw01',
     family: 'CASIO ClassWiz CW01',
@@ -92,9 +92,15 @@ const config = [
     mapping: ms01,
     series: series_ms,
   },
-].map(i => ({
+])).map(i => ({
   ...i,
+  family: /** @type {string} */ (i.family),
+  mapping: /** @type {Record<string, string[]>} */ (i.mapping),
   reverseMapping: keyTextMappingConvert(i.font, i.mapping),
 }));
+
+/** @typedef {typeof config[number]['font']} Font */
+/** @typedef {typeof series[number]} Series */
+/** @typedef {typeof config[number]} FontConfig */
 
 export { config };
